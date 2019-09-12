@@ -25,6 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.coxylicacid.mdwidgets.R;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * @author Krins
+ * @version 0.0.1-alpha01
+ */
 @SuppressLint("StaticFieldLeak")
 public class SnailBar {
 
@@ -43,10 +47,20 @@ public class SnailBar {
     public final static int LENGTH_SHORT = -1;
     public final static int LENGTH_NEVER = -2;
 
+    /**
+     * Gravity 位置方向
+     * <p>
+     * TOP: 上面, TOP_LEFT: 左上, TOP_RIGHT: 右上, BOTTOM: 下面, BOTTOM_LEFT: 左下, BOTTOM_RIGHT: 右下, CENTER: 中间, CENTER_LEFT: 左中, CENTER_RIGHT: 右中
+     */
     public enum Gravity {TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER, CENTER_LEFT, CENTER_RIGHT}
 
     private static Gravity defaultGravity = Gravity.BOTTOM;
 
+    /**
+     * Anime 过度动画
+     * <p>
+     * CIRCULAR_REVEAL: 揭露动画, SCALE: 缩放动画, ALPHA: 透明度动画, SLIDE: 从下边滑入, SLIDE_FROM_SIDE: 从旁边滑入
+     */
     public enum Anime {CIRCULAR_REVEAL, SCALE, ALPHA, SLIDE, SLIDE_FROM_SIDE}
 
     private static Anime defaultAnime = Anime.SLIDE;
@@ -64,6 +78,12 @@ public class SnailBar {
     };
 
 
+    /**
+     * 获取SnailBar的实例
+     *
+     * @param activity 界面
+     * @return {@link SnailBar}
+     */
     public static SnailBar getIntance(AppCompatActivity activity) {
         if (instance == null) {
             instance = new SnailBar();
@@ -73,6 +93,14 @@ public class SnailBar {
         return instance;
     }
 
+    /**
+     * 生成 Snailbar
+     *
+     * @param activity 界面Activity
+     * @param msg      消息
+     * @param length   显示时长
+     * @return {@link SnailBar}
+     */
     public static SnailBar make(AppCompatActivity activity, String msg, int length) {
         SnailBar.getIntance(activity);
         initActions(instance);
@@ -81,6 +109,14 @@ public class SnailBar {
         return instance;
     }
 
+    /**
+     * 生成 Snailbar
+     *
+     * @param activity 界面Activity
+     * @param msgId    消息资源值
+     * @param length   显示时长
+     * @return {@link SnailBar}
+     */
     public static SnailBar make(AppCompatActivity activity, int msgId, int length) {
         SnailBar.getIntance(activity);
         initActions(instance);
@@ -287,6 +323,12 @@ public class SnailBar {
         durationHandler.postDelayed(runnable, _duration);
     }
 
+    /**
+     * 设置 SnailBar 的重力方向
+     *
+     * @param gravity 界面Activity
+     * @return {@link SnailBar}
+     */
     public SnailBar gravity(Gravity gravity) {
         switch (gravity) {
             case TOP:
@@ -341,6 +383,12 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 强制自适应或不自适应SnailBar宽度
+     *
+     * @param wrap 是否自适应
+     * @return {@link SnailBar}
+     */
     public SnailBar wrapMode(boolean wrap) {
         if (wrap) {
             layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -352,11 +400,24 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置默认的SnailBar过渡动画
+     *
+     * @param anime {@link Anime}
+     * @return {@link SnailBar}
+     */
     public SnailBar anime(Anime anime) {
         defaultAnime = anime;
         return this;
     }
 
+    /**
+     * 设置默认的SnailBar过渡动画
+     *
+     * @param anime    {@link Anime}
+     * @param duration 动画时长
+     * @return {@link SnailBar}
+     */
     public SnailBar anime(Anime anime, int duration) {
         defaultAnime = anime;
         if (duration > 0)
@@ -364,6 +425,12 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 将SnailBar绑定到一个View上面
+     *
+     * @param v 需要绑定的控件
+     * @return {@link SnailBar}
+     */
     public SnailBar attachTo(View v) {
         if ((v.getX() + (container.getWidth() * 0.36)) > decorView.getWidth()) {
             container.setX(decorView.getWidth() - container.getWidth());
@@ -378,6 +445,12 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置SnailBar的布局
+     *
+     * @param layout 布局Id值
+     * @return {@link SnailBar}
+     */
     public SnailBar contentView(int layout) {
         container_content = (ViewGroup) LayoutInflater.from(context).inflate(layout, null);
         if (container_content.findViewById(R.id.snailbar_action) == null) {
@@ -393,6 +466,12 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置SnailBar的布局
+     *
+     * @param layout 布局控件
+     * @return {@link SnailBar}
+     */
     public SnailBar contentView(ViewGroup layout) {
         container_content = layout;
         if (container_content.findViewById(R.id.snailbar_action) == null) {
@@ -408,23 +487,47 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置SnailBar上面要显示的Icon
+     *
+     * @param resId 资源Id值
+     * @return {@link SnailBar}
+     */
     public SnailBar icon(int resId) {
         _icon.setVisibility(View.VISIBLE);
         _icon.setImageDrawable(context.getResources().getDrawable(resId));
         return this;
     }
 
+    /**
+     * 设置SnailBar上面要显示的Icon
+     *
+     * @param bitmap Bitmap图片
+     * @return {@link SnailBar}
+     */
     public SnailBar icon(Bitmap bitmap) {
         _icon.setVisibility(View.VISIBLE);
         _icon.setImageBitmap(bitmap);
         return this;
     }
 
+    /**
+     * 设置 SnailBar 的背景
+     *
+     * @param drawable Drawable资源
+     * @return {@link SnailBar}
+     */
     public SnailBar background(Drawable drawable) {
         container_content.setBackground(drawable);
         return this;
     }
 
+    /**
+     * 设置 SnailBar 背景颜色
+     *
+     * @param color 颜色值
+     * @return {@link SnailBar}
+     */
     public SnailBar backgroundColor(int color) {
         Drawable drawable = context.getDrawable(R.drawable.snailbar_bg);
         drawable.setTint(color);
@@ -432,6 +535,12 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置 SnailBar 背景颜色
+     *
+     * @param color 颜色值
+     * @return {@link SnailBar}
+     */
     public SnailBar backgroundColor(String color) {
         Drawable drawable = context.getDrawable(R.drawable.snailbar_bg);
         drawable.setTint(Color.parseColor(color));
@@ -439,16 +548,35 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置 SnailBar 背景资源
+     *
+     * @param resId 资源值
+     * @return {@link SnailBar}
+     */
     public SnailBar backgroundResources(int resId) {
         container_content.setBackgroundResource(resId);
         return this;
     }
 
+    /**
+     * 设置要显示的消息
+     *
+     * @param s 消息
+     * @return {@link SnailBar}
+     */
     public SnailBar msg(String s) {
         content.setText(s);
         return this;
     }
 
+    /**
+     * 设置按钮的点击事件
+     *
+     * @param text     按钮的文本
+     * @param listener {@link SnailBarActionListener}监听器
+     * @return {@link SnailBar}
+     */
     public SnailBar action(String text, SnailBarActionListener listener) {
         btn_action.setVisibility(View.VISIBLE);
         btn_action.setText(text);
@@ -456,24 +584,48 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 设置显示时长
+     *
+     * @param length 时长
+     * @return {@link SnailBar}
+     */
     public SnailBar duration(int length) {
         _duration = length;
         return this;
     }
 
+    /**
+     * 显示SnailBar
+     */
     public void show() {
         showAnimation(defaultAnime);
     }
 
+    /**
+     * 取消SnailBar
+     */
     public void dismiss() {
         closeAnimation(defaultAnime);
     }
 
+    /**
+     * 设置按钮的字体颜色
+     *
+     * @param color 颜色值
+     * @return {@link SnailBar}
+     */
     public SnailBar setActionButtonTextColor(int color) {
         btn_action.setTextColor(color);
         return this;
     }
 
+    /**
+     * 设置消息的文本颜色
+     *
+     * @param color 颜色值
+     * @return {@link SnailBar}
+     */
     public SnailBar setMsgColor(int color) {
         content.setTextColor(color);
         return this;

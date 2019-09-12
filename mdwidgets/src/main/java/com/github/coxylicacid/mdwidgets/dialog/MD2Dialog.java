@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * @author Krins
- * @version 190907
+ * @version 0.0.1-alpha01
  */
 
 public class MD2Dialog {
