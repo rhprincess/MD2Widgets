@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -180,7 +182,7 @@ public class MD2Dialog {
      * 设置对话框按钮的Style
      *
      * @param style 主题
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog buttonStyle(ButtonStyle style) {
         switch (style) {
@@ -203,6 +205,94 @@ public class MD2Dialog {
                 initButtons();
                 break;
         }
+        return this;
+    }
+
+    /**
+     * 设置标题的颜色
+     *
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog titleColor(int color) {
+        _title.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置消息颜色
+     *
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog msgColor(int color) {
+        content.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置确认按钮的颜色
+     *
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog confirmColor(int color) {
+        confirm.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置取消按钮的颜色
+     *
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog cancelColor(int color) {
+        cancel.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置消极按钮的的颜色
+     *
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog negativeColor(int color) {
+        negative.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 设置所有按钮的统一颜色
+     *
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog allButtonColor(int color) {
+        confirm.setTextColor(color);
+        cancel.setTextColor(color);
+        negative.setTextColor(color);
+        return this;
+    }
+
+    /**
+     * 通过当前Activity的主题来配置对话框的一些颜色
+     *
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog initWithAppTheme() {
+        TypedArray array = context.getTheme().obtainStyledAttributes(new int[]{
+                android.R.attr.textColorPrimary,
+                android.R.attr.colorAccent,
+        });
+        int textColor = array.getColor(1, 0xFF000000);
+        int colorAccent = array.getColor(2, context.getResources().getColor(R.color.md2widgets_dialog_accent));
+        array.recycle();
+
+        msgColor(getBrighterColor(textColor));
+        titleColor(getDarkerColor(textColor));
+        allButtonColor(colorAccent);
         return this;
     }
 
@@ -252,7 +342,7 @@ public class MD2Dialog {
     /**
      * 获取对话框中的CheckBox的选中情况
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public boolean getCheckBoxStatus() {
         return checkbox.isChecked();
@@ -261,7 +351,7 @@ public class MD2Dialog {
     /**
      * 设置Dialog为加载中模式
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onLoading() {
         isLoadingMode = true;
@@ -276,7 +366,7 @@ public class MD2Dialog {
      * 设置Dialog为加载中模式
      *
      * @param hasTitle 是否含有标题
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onLoading(boolean hasTitle) {
         isLoadingMode = true;
@@ -293,7 +383,7 @@ public class MD2Dialog {
      *
      * @param defaultChoice 默认选中某个选项
      * @param lis           监听者
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog listenChoices(int defaultChoice, SingleChoiceListener lis) {
         if (isSingleChoiceMode) {
@@ -306,7 +396,7 @@ public class MD2Dialog {
     /**
      * 移除单选列表的分割线
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog removeDivider() {
         listView.setDividerHeight(0);
@@ -317,7 +407,7 @@ public class MD2Dialog {
      * 设置是否为单选模式
      *
      * @param b 确认与否
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog singleChoiceMode(boolean b) {
         isSingleChoiceMode = b;
@@ -349,7 +439,7 @@ public class MD2Dialog {
      * 设置单选的项目（数据）
      *
      * @param resId values目录下的arrays.xml文件所定义的数组的id
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog items(int resId) {
         String[] lists = context.getResources().getStringArray(resId);
@@ -369,7 +459,7 @@ public class MD2Dialog {
      *
      * @param resId         values目录下的arrays.xml文件所定义的数组的id
      * @param defaultChoice 默认选中某个选项
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog items(int resId, int defaultChoice) {
         String[] lists = context.getResources().getStringArray(resId);
@@ -389,7 +479,7 @@ public class MD2Dialog {
      * 设置单选项目（数据）
      *
      * @param lists 数据数组
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog items(String[] lists) {
         List<Choicer> choicers = new ArrayList<>();
@@ -408,7 +498,7 @@ public class MD2Dialog {
      *
      * @param lists         数据数组
      * @param defaultChoice 默认选中某个选项
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog items(String[] lists, int defaultChoice) {
         List<Choicer> choicers = new ArrayList<>();
@@ -428,7 +518,7 @@ public class MD2Dialog {
      * 响应按钮的兼并监听模式
      *
      * @param callback 监听回调
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog call(OptionsCallBack callback) {
         this._callback = callback;
@@ -439,7 +529,7 @@ public class MD2Dialog {
      * 响应确认按钮
      *
      * @param callBack 监听回调
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog callConfirm(OptionsButtonCallBack callBack) {
         this._lis_confirm = callBack;
@@ -450,7 +540,7 @@ public class MD2Dialog {
      * 响应取消按钮
      *
      * @param callBack 监听回调
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog callCancel(OptionsButtonCallBack callBack) {
         this._lis_cancel = callBack;
@@ -461,7 +551,7 @@ public class MD2Dialog {
      * 响应消极按钮
      *
      * @param callBack 监听回调
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog callNegative(OptionsButtonCallBack callBack) {
         return this;
@@ -470,7 +560,7 @@ public class MD2Dialog {
     /**
      * 设置对话框模式为进度条模式
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog progress() {
         progressContent.setVisibility(View.VISIBLE);
@@ -482,7 +572,7 @@ public class MD2Dialog {
      *
      * @param indeterminate 是否将进度条处于循环加载状态
      * @param max           最大值
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog progress(boolean indeterminate, int max) {
         progressBar.setIndeterminate(indeterminate);
@@ -495,7 +585,7 @@ public class MD2Dialog {
      * 设置进度条的最大值
      *
      * @param max 最大值
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog progressMax(int max) {
         progressBar.setMax(max);
@@ -515,7 +605,7 @@ public class MD2Dialog {
      * 更新进度条的进度
      *
      * @param progress 更新的进度值
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog updateProgress(int progress) {
         progressBar.setProgress(progress);
@@ -526,7 +616,7 @@ public class MD2Dialog {
      * 设置进度条显示的百分比值文字
      *
      * @param i 数值
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     @SuppressLint("SetTextI18n")
     public MD2Dialog percent(int i) {
@@ -543,7 +633,7 @@ public class MD2Dialog {
      * 设置进度条显示的百分比文字
      *
      * @param i 文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     @SuppressLint("SetTextI18n")
     public MD2Dialog percent(String i) {
@@ -560,7 +650,7 @@ public class MD2Dialog {
      * 设置进度条显示的百分比值文字
      *
      * @param i 数值
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     @SuppressLint("SetTextI18n")
     public MD2Dialog percent(float i) {
@@ -577,7 +667,7 @@ public class MD2Dialog {
      * 显示进度条当中的加载值文字
      *
      * @param s 字符串
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog kbs(String s) {
         if (_kbs.getVisibility() == View.GONE) {
@@ -593,7 +683,7 @@ public class MD2Dialog {
      * 是否允许触碰对话框外后关闭对话框
      *
      * @param b 确认与否
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog canceledOnTouchOutside(boolean b) {
         dialog.setCanceledOnTouchOutside(b);
@@ -604,7 +694,7 @@ public class MD2Dialog {
      * 启用对话框中的CheckBox （可用于协议的同意等等）
      *
      * @param describe CheckBox的描述文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog enableCheckBox(String describe) {
         checkbox.setVisibility(View.VISIBLE);
@@ -616,7 +706,7 @@ public class MD2Dialog {
      * 启用对话框中的CheckBox （可用于协议的同意等等）
      *
      * @param resId CheckBox的描述文字 （字符串资源id）
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog enableCheckBox(int resId) {
         checkbox.setVisibility(View.VISIBLE);
@@ -629,7 +719,7 @@ public class MD2Dialog {
      *
      * @param describe       CheckBox的描述文字
      * @param defaultChecked 是否默认选中
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog enableCheckBox(String describe, boolean defaultChecked) {
         checkbox.setVisibility(View.VISIBLE);
@@ -643,7 +733,7 @@ public class MD2Dialog {
      *
      * @param resId          CheckBox的描述文字 （字符串资源id）
      * @param defaultChecked 是否默认选中
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog enableCheckBox(int resId, boolean defaultChecked) {
         checkbox.setVisibility(View.VISIBLE);
@@ -656,7 +746,7 @@ public class MD2Dialog {
      * 设置确认按钮的监听
      *
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onConfirmClick(OptionsButtonCallBack listener) {
         confirm.setVisibility(View.VISIBLE);
@@ -669,7 +759,7 @@ public class MD2Dialog {
      *
      * @param text     确认按钮的文字
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onConfirmClick(String text, OptionsButtonCallBack listener) {
         confirm.setVisibility(View.VISIBLE);
@@ -683,7 +773,7 @@ public class MD2Dialog {
      *
      * @param resId    确认按钮文字 （字符串资源Id）
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onConfirmClick(int resId, OptionsButtonCallBack listener) {
         confirm.setVisibility(View.VISIBLE);
@@ -695,7 +785,7 @@ public class MD2Dialog {
     /**
      * 设置对话框中的确认按钮事件为默认关闭对话框
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleConfirmButton() {
         confirm.setVisibility(View.VISIBLE);
@@ -712,7 +802,7 @@ public class MD2Dialog {
      * 设置对话框中的确认按钮事件为默认关闭对话框
      *
      * @param s 确认按钮的文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleConfirmButton(String s) {
         confirm.setVisibility(View.VISIBLE);
@@ -730,7 +820,7 @@ public class MD2Dialog {
      * 设置对话框中的确认按钮事件为默认关闭对话框
      *
      * @param resId 确认按钮的文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleConfirmButton(int resId) {
         confirm.setVisibility(View.VISIBLE);
@@ -747,7 +837,7 @@ public class MD2Dialog {
     /**
      * 设置对话框中的取消按钮事件为默认关闭对话框
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleCancelButton() {
         cancel.setVisibility(View.VISIBLE);
@@ -764,7 +854,7 @@ public class MD2Dialog {
      * 设置对话框中的取消按钮事件为默认关闭对话框
      *
      * @param s 取消按钮的文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleCancelButton(String s) {
         cancel.setVisibility(View.VISIBLE);
@@ -782,7 +872,7 @@ public class MD2Dialog {
      * 设置对话框中的取消按钮事件为默认关闭对话框
      *
      * @param resId 取消按钮的文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleCancelButton(int resId) {
         cancel.setVisibility(View.VISIBLE);
@@ -799,7 +889,7 @@ public class MD2Dialog {
     /**
      * 设置对话框中的消极按钮事件为默认关闭对话框
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleNegativeButton() {
         negative.setVisibility(View.VISIBLE);
@@ -816,7 +906,7 @@ public class MD2Dialog {
      * 设置对话框中的消极按钮事件为默认关闭对话框
      *
      * @param s 消极按钮的文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleNegativeButton(String s) {
         negative.setVisibility(View.VISIBLE);
@@ -834,7 +924,7 @@ public class MD2Dialog {
      * 设置对话框中的消极按钮事件为默认关闭对话框
      *
      * @param resId 消极按钮的文字
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog simpleNegativeButton(int resId) {
         negative.setVisibility(View.VISIBLE);
@@ -852,7 +942,7 @@ public class MD2Dialog {
      * 设置取消按钮的监听
      *
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onCancelClick(OptionsButtonCallBack listener) {
         cancel.setVisibility(View.VISIBLE);
@@ -865,7 +955,7 @@ public class MD2Dialog {
      *
      * @param text     取消按钮的文字
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onCancelClick(String text, OptionsButtonCallBack listener) {
         cancel.setVisibility(View.VISIBLE);
@@ -879,7 +969,7 @@ public class MD2Dialog {
      *
      * @param resId    取消按钮的文字 （字符串资源Id）
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onCancelClick(int resId, OptionsButtonCallBack listener) {
         cancel.setVisibility(View.VISIBLE);
@@ -892,7 +982,7 @@ public class MD2Dialog {
      * 设置消极按钮的监听
      *
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onNegativeClick(OptionsButtonCallBack listener) {
         negative.setVisibility(View.VISIBLE);
@@ -905,7 +995,7 @@ public class MD2Dialog {
      *
      * @param s        消极按钮的文字
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onNegativeClick(String s, OptionsButtonCallBack listener) {
         negative.setVisibility(View.VISIBLE);
@@ -919,7 +1009,7 @@ public class MD2Dialog {
      *
      * @param resId    消极按钮的文字 （字符串资源Id）
      * @param listener 监听器
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog onNegativeClick(int resId, OptionsButtonCallBack listener) {
         negative.setVisibility(View.VISIBLE);
@@ -932,7 +1022,7 @@ public class MD2Dialog {
      * 设置对话框标题
      *
      * @param s 标题
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog title(String s) {
         _title.setVisibility(View.VISIBLE);
@@ -944,7 +1034,7 @@ public class MD2Dialog {
      * 设置对话框标题
      *
      * @param resId 字符串资源id
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog title(int resId) {
         _title.setVisibility(View.VISIBLE);
@@ -956,7 +1046,7 @@ public class MD2Dialog {
      * 设置对话框内容
      *
      * @param s 内容
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog msg(String s) {
         if (isLoadingMode) {
@@ -971,7 +1061,7 @@ public class MD2Dialog {
      * 设置对话框内容
      *
      * @param resId 字符串资源id
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog msg(int resId) {
         if (isLoadingMode) {
@@ -986,7 +1076,7 @@ public class MD2Dialog {
      * 设置对话框内容
      *
      * @param fromHtml Spanned文本
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog msg(Spanned fromHtml) {
         if (isLoadingMode) {
@@ -1000,7 +1090,7 @@ public class MD2Dialog {
     /**
      * 显示对话框
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog show() {
         dialog.show();
@@ -1010,11 +1100,31 @@ public class MD2Dialog {
     /**
      * 取消对话框
      *
-     * @return MD2Dialog
+     * @return {@link MD2Dialog}
      */
     public MD2Dialog dismiss() {
         dialog.dismiss();
         return this;
+    }
+
+    // 获取更深颜色
+    private int getDarkerColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv); // convert to hsv
+        // make darker
+        hsv[1] = hsv[1] + 0.1f; // 饱和度更高
+        hsv[2] = hsv[2] - 0.1f; // 明度降低
+        return Color.HSVToColor(hsv);
+    }
+
+    // 获取更浅的颜色
+    private int getBrighterColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv); // convert to hsv
+
+        hsv[1] = hsv[1] - 0.2f; // less saturation
+        hsv[2] = hsv[2] + 0.2f; // more brightness
+        return Color.HSVToColor(hsv);
     }
 
 
