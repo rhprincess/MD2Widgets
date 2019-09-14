@@ -4,7 +4,7 @@
 
 ```gradle
 api "com.google.android.material:material:1.1.0-alpha10" //这个是必须引入的，官方的库，且需要使用api引入
-implementation 'com.github.coxylicacid:mdwidgets:0.0.1-alpha03' //该扩展库
+implementation 'com.github.coxylicacid:mdwidgets:0.0.1-alpha04' //该扩展库
 ```
 
 ##### 修改您App的主题
