@@ -151,6 +151,15 @@ public class SnailBar {
                     actionListener.onClick(view, snailBar);
             }
         });
+
+        btn_action.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (actionListener != null)
+                    return actionListener.onLongClick(view, snailBar);
+                else return false;
+            }
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -657,6 +666,30 @@ public class SnailBar {
          * @param snailBar 返回{@link SnailBar}
          */
         void onClick(View view, SnailBar snailBar);
+
+        /**
+         * 按钮长按事件
+         *
+         * @param view     返回按钮
+         * @param snailBar 返回{@link SnailBar}
+         * @return 是否完成了长按
+         */
+        boolean onLongClick(View view, SnailBar snailBar);
+    }
+
+    /**
+     * {@link SnailBarActionListener}的适配器，选择性实现接口方法
+     */
+    public class SnailBarActionListenerAdapter implements SnailBarActionListener {
+        @Override
+        public void onClick(View view, SnailBar snailBar) {
+
+        }
+
+        @Override
+        public boolean onLongClick(View view, SnailBar snailBar) {
+            return false;
+        }
     }
 
     /**
@@ -690,6 +723,31 @@ public class SnailBar {
          * @param snailBar 返回{@link SnailBar}
          */
         void onResumed(SnailBar snailBar);
+    }
+
+    /**
+     * {@link SnailBarListener}的适配器，选择性实现接口方法
+     */
+    public class SnailBarListenerAdapter implements SnailBarListener {
+        @Override
+        public void onShown(SnailBar snailBar) {
+
+        }
+
+        @Override
+        public void onDismissed(SnailBar snailBar) {
+
+        }
+
+        @Override
+        public void onPaused(SnailBar snailBar) {
+
+        }
+
+        @Override
+        public void onResumed(SnailBar snailBar) {
+
+        }
     }
 
     private static float getStatusBarHeight(Context context) {
