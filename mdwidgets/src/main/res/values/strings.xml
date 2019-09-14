@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MDWidgets</string>
     <string name="snailbar_icon_description">SnailBar Icon</string>
+    <string name="expand_msg">Expanding Msg When the msg over 3 lines</string>
 </resources>

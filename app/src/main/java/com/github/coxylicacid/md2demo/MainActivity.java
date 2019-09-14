@@ -20,12 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                SnailBar.make(MainActivity.this, "这是第" + n + "条消息", SnailBar.LENGTH_SHORT)
-                        .gravity(SnailBar.Gravity.TOP)
+                SnailBar.make(MainActivity.this, "你好", SnailBar.LENGTH_SHORT)
+                        .gravity(SnailBar.Gravity.BOTTOM)
                         .wrapMode(true)
                         .icon(R.mipmap.ic_launcher_round)
                         .anime(SnailBar.Anime.CIRCULAR_REVEAL)
-                        .action("确定", new SnailBar.SnailBarActionListener() {
+                        .action("确定", new SnailBar.SnailBarActionListenerAdapter() {
                             @Override
                             public void onClick(View view, SnailBar snailBar) {
                                 snailBar.msg("你点了确定");

@@ -6,18 +6,24 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +33,7 @@ import com.google.android.material.button.MaterialButton;
 
 /**
  * @author Krins
- * @version 0.0.1-alpha01
+ * @version 0.0.1-alpha04
  */
 @SuppressLint("StaticFieldLeak")
 public class SnailBar {
@@ -42,10 +48,20 @@ public class SnailBar {
     private static SnailBarActionListener actionListener;
     private static SnailBarListener listener;
     private static ImageView _icon;
+    private static ImageView _expand;
+
+    private static LinearLayout expanderFront;
+    private static LinearLayout expanderBehind;
+    private static TextView textFront;
+    private static TextView textBehind;
 
     public final static int LENGTH_LONG = -0;
     public final static int LENGTH_SHORT = -1;
     public final static int LENGTH_NEVER = -2;
+
+    private static boolean isUsingExpandMode = false;
+    private static boolean isExpanderOnTop = false;
+    private static boolean isExpanded = false;
 
     /**
      * Gravity 位置方向
@@ -68,6 +84,7 @@ public class SnailBar {
 
     static final Handler durationHandler = new Handler();
     private int _duration = 0;
+    private static String _msg = "";
     static SnailBar instance;
     static Runnable runnable = new Runnable() {
         @Override
@@ -134,9 +151,15 @@ public class SnailBar {
         container.setVisibility(View.GONE);
 
         _icon = container.findViewById(R.id.snailbar_icon);
+        _expand = container.findViewById(R.id.snailbar_expand);
         content = container.findViewById(R.id.snailbar_content);
         btn_action = container.findViewById(R.id.snailbar_action);
         container_content = container.findViewById(R.id.container_content);
+
+        expanderFront = container.findViewById(R.id.snailbar_expander_front);
+        expanderBehind = container.findViewById(R.id.snailbar_expander_behind);
+        textFront = container.findViewById(R.id.snailbar_front_text);
+        textBehind = container.findViewById(R.id.snailbar_behind_text);
 
         layoutParams.gravity = android.view.Gravity.BOTTOM;
         content.setText("内容");
@@ -160,6 +183,53 @@ public class SnailBar {
                 else return false;
             }
         });
+
+        _expand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isExpanded)
+                    closeExpander();
+                else
+                    openExpander();
+            }
+        });
+    }
+
+    private static void openExpander() {
+        durationHandler.removeCallbacks(runnable); // 暂时关闭计时器
+        if (listener != null)
+            listener.onPaused(instance);
+
+        container_content.setOnTouchListener(null);
+
+        isExpanded = true;
+
+        //判断SnailBar的方位，根据方位显示消息扩展器
+        if (isExpanderOnTop) {
+            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
+            expanderBehind.setVisibility(View.VISIBLE);
+            textBehind.setText(_msg);
+        } else {
+            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fold));
+            expanderFront.setVisibility(View.VISIBLE);
+            textFront.setText(_msg);
+        }
+    }
+
+    private static void closeExpander() {
+        durationHandler.postDelayed(runnable, 1850);
+        if (listener != null)
+            listener.onResumed(instance);
+
+        isExpanded = false;
+        //判断SnailBar的方位，根据方位隐藏消息扩展器
+        if (isExpanderOnTop) {
+            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fold));
+            expanderBehind.setVisibility(View.GONE);
+        } else {
+            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
+            expanderFront.setVisibility(View.GONE);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -247,6 +317,7 @@ public class SnailBar {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                setExpandMode();
                 switch (_duration) {
                     case LENGTH_LONG:
                         closeInSchedule(2750);
@@ -397,6 +468,48 @@ public class SnailBar {
     }
 
     /**
+     * 使用消息扩展模式，当消息大于一定长度时自动折叠消息
+     *
+     * @return {@link SnailBar}
+     */
+    public SnailBar useExpandMode() {
+        isUsingExpandMode = true;
+        if (defaultGravity == Gravity.TOP_LEFT || defaultGravity == Gravity.TOP || defaultGravity == Gravity.TOP_RIGHT) {
+            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fold));
+            isExpanderOnTop = true;
+        } else {
+            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
+            isExpanderOnTop = false;
+        }
+        setExpandMode();
+        return this;
+    }
+
+    @SuppressLint("SetTextI18n")
+    private static void setExpandMode() {
+        if (isUsingExpandMode && (content.getLineCount() > 3 || container.getHeight() > dp2px(40) * 2.5)) {
+            _expand.setVisibility(View.VISIBLE);
+            content.setText((_msg.substring(0, 10) + "...").replace("\n", ""));
+        }
+    }
+
+    private static void limitExpanderHeight() {
+        if (isExpanderOnTop) {
+            if (container.getHeight() >= dp2px(250)) {
+                expanderBehind.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp2px(250)));
+            } else {
+                expanderBehind.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            }
+        } else {
+            if (container.getHeight() >= dp2px(250)) {
+                expanderFront.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp2px(250)));
+            } else {
+                expanderFront.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            }
+        }
+    }
+
+    /**
      * 监听SnailBar的相关事件
      *
      * @param lis 监听器
@@ -536,6 +649,17 @@ public class SnailBar {
     }
 
     /**
+     * 给Icon着色
+     *
+     * @param color 颜色值
+     * @return {@link SnailBar}
+     */
+    public SnailBar iconTint(int color) {
+        _icon.setImageTintList(ColorStateList.valueOf(color));
+        return this;
+    }
+
+    /**
      * 设置 SnailBar 的背景
      *
      * @param drawable Drawable资源
@@ -590,8 +714,71 @@ public class SnailBar {
      * @return {@link SnailBar}
      */
     public SnailBar msg(String s) {
-        content.setText(s);
+        if (!isUsingExpandMode) {
+            content.setText(s);
+        } else {
+            try {
+                if (isExpanderOnTop) {
+                    if (isExpanded) {
+                        textBehind.setText(s);
+                        content.setText(String.format("%s...", s.substring(0, 10).replace("\n", "")));
+                    } else {
+                        updateMsgOnExpandMode(content, s);
+                    }
+                } else {
+                    if (isExpanded) {
+                        textFront.setText(s);
+                        content.setText(String.format("%s...", s.substring(0, 10).replace("\n", "")));
+                    } else {
+                        updateMsgOnExpandMode(content, s);
+                    }
+                }
+            } catch (StringIndexOutOfBoundsException ignored) {
+            }
+        }
+        _msg = s;
         return this;
+    }
+
+    /**
+     * 设置要显示的消息
+     *
+     * @param resId 字符串资源Id
+     * @return {@link SnailBar}
+     */
+    public SnailBar msg(int resId) {
+        if (!isUsingExpandMode) {
+            content.setText(context.getString(resId));
+        } else {
+            try {
+                if (isExpanderOnTop) {
+                    if (isExpanded) {
+                        textBehind.setText(context.getString(resId));
+                        content.setText(String.format("%s...", context.getString(resId).substring(0, 10).replace("\n", "")));
+                    } else {
+                        updateMsgOnExpandMode(content, context.getString(resId));
+                    }
+                } else {
+                    if (isExpanded) {
+                        textFront.setText(context.getString(resId));
+                        content.setText(String.format("%s...", context.getString(resId).substring(0, 10).replace("\n", "")));
+                    } else {
+                        updateMsgOnExpandMode(content, context.getString(resId));
+                    }
+                }
+            } catch (StringIndexOutOfBoundsException ignored) {
+            }
+        }
+        _msg = context.getString(resId);
+        return this;
+    }
+
+    private void updateMsgOnExpandMode(TextView v, String s) {
+        if (s.length() > 10) {
+            v.setText(String.format("%s...", s.substring(0, 10).replace("\n", "")));
+        } else {
+            v.setText(s);
+        }
     }
 
     /**
@@ -639,7 +826,7 @@ public class SnailBar {
      * @param color 颜色值
      * @return {@link SnailBar}
      */
-    public SnailBar setActionButtonTextColor(int color) {
+    public SnailBar actionTextColor(int color) {
         btn_action.setTextColor(color);
         return this;
     }
@@ -650,8 +837,10 @@ public class SnailBar {
      * @param color 颜色值
      * @return {@link SnailBar}
      */
-    public SnailBar setMsgColor(int color) {
+    public SnailBar msgColor(int color) {
         content.setTextColor(color);
+        textFront.setTextColor(color);
+        textBehind.setTextColor(color);
         return this;
     }
 
@@ -680,7 +869,7 @@ public class SnailBar {
     /**
      * {@link SnailBarActionListener}的适配器，选择性实现接口方法
      */
-    public class SnailBarActionListenerAdapter implements SnailBarActionListener {
+    public static class SnailBarActionListenerAdapter implements SnailBarActionListener {
         @Override
         public void onClick(View view, SnailBar snailBar) {
 
@@ -728,7 +917,7 @@ public class SnailBar {
     /**
      * {@link SnailBarListener}的适配器，选择性实现接口方法
      */
-    public class SnailBarListenerAdapter implements SnailBarListener {
+    public static class SnailBarListenerAdapter implements SnailBarListener {
         @Override
         public void onShown(SnailBar snailBar) {
 
@@ -764,6 +953,92 @@ public class SnailBar {
     private static int dp2px(float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 限制消息扩展栏的高度
+     */
+    public static class SnailLimitedHeightView extends LinearLayout {
+
+        private static final float DEFAULT_MAX_RATIO = 0.6f;
+        private static final float DEFAULT_MAX_HEIGHT = 0f;
+
+        private float mMaxRatio = DEFAULT_MAX_RATIO;// 优先级高
+        private float mMaxHeight = DEFAULT_MAX_HEIGHT;// 优先级低
+
+        public SnailLimitedHeightView(Context context) {
+            super(context);
+            init();
+        }
+
+        public SnailLimitedHeightView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            initAttrs(context, attrs);
+            init();
+        }
+
+        public SnailLimitedHeightView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+            initAttrs(context, attrs);
+            init();
+        }
+
+        private void initAttrs(Context context, AttributeSet attrs) {
+            TypedArray a = context.obtainStyledAttributes(attrs,
+                    R.styleable.SnailLimitedHeightView);
+
+            final int count = a.getIndexCount();
+            for (int i = 0; i < count; ++i) {
+                int attr = a.getIndex(i);
+                if (attr == R.styleable.SnailLimitedHeightView_heightRatio) {
+                    mMaxRatio = a.getFloat(attr, DEFAULT_MAX_RATIO);
+                } else if (attr == R.styleable.SnailLimitedHeightView_heightDimen) {
+                    mMaxHeight = a.getDimension(attr, DEFAULT_MAX_HEIGHT);
+                }
+            }
+            a.recycle();
+        }
+
+        private void init() {
+            if (mMaxHeight <= 0) {
+                mMaxHeight = mMaxRatio * (float) getScreenHeight(getContext());
+            } else {
+                mMaxHeight = Math.min(mMaxHeight, mMaxRatio * (float) getScreenHeight(getContext()));
+            }
+        }
+
+        @Override
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+            int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+            if (heightMode == MeasureSpec.EXACTLY) {
+                heightSize = heightSize <= mMaxHeight ? heightSize
+                        : (int) mMaxHeight;
+            }
+
+            if (heightMode == MeasureSpec.UNSPECIFIED) {
+                heightSize = heightSize <= mMaxHeight ? heightSize
+                        : (int) mMaxHeight;
+            }
+            if (heightMode == MeasureSpec.AT_MOST) {
+                heightSize = heightSize <= mMaxHeight ? heightSize
+                        : (int) mMaxHeight;
+            }
+            int maxHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, heightMode);
+            super.onMeasure(widthMeasureSpec, maxHeightMeasureSpec);
+        }
+
+        private int getScreenHeight(Context context) {
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            if (wm != null) {
+                wm.getDefaultDisplay().getMetrics(outMetrics);
+            }
+            return outMetrics.heightPixels;
+        }
+
     }
 
 }

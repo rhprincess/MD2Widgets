@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SnailLimitedHeightView">
+        <attr name="heightRatio" format="reference|float" />
+        <attr name="heightDimen" format="reference|dimension" />
+    </declare-styleable>
+
+</resources>

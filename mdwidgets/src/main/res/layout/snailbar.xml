@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -16,54 +17,152 @@
         android:elevation="5dp"
         android:focusable="true"
         android:minHeight="40dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/icon_container"
-            android:layout_width="wrap_content"
+            android:id="@+id/snailbar_expander_front"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="5dp">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <ImageView
-                android:id="@+id/snailbar_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="8dp"
-                android:contentDescription="@string/snailbar_icon_description"
-                android:padding="2dp"
-                android:visibility="gone" />
+            <view
+                android:id="@+id/snailbar_expander_front_container"
+                class="com.github.coxylicacid.mdwidgets.toast.SnailBar$SnailLimitedHeightView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:heightRatio="0.65">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <TextView
+                        android:id="@+id/snailbar_front_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:textColor="#FFF"
+                        android:textSize="14sp" />
+
+                </ScrollView>
+
+            </view>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#10FFFFFF" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/snailbar_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:textColor="#FFF"
-            android:textSize="14sp"
-            tools:text="提示" />
+            <LinearLayout
+                android:id="@+id/icon_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="5dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/snailbar_action"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/snailbar_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/snailbar_icon_description"
+                    android:padding="2dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/snailbar_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                tools:text="提示" />
+
+            <ImageView
+                android:id="@+id/snailbar_expand"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="@string/expand_msg"
+                android:padding="3dp"
+                android:src="@drawable/ic_expand"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/snailbar_action"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="10dp"
+                android:minWidth="55dp"
+                android:minHeight="40dp"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="Action"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/snailbar_expander_behind"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="10dp"
-            android:minWidth="55dp"
-            android:minHeight="40dp"
-            android:textSize="13sp"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:text="Action"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#10FFFFFF" />
+
+            <view
+                android:id="@+id/snailbar_expander_behind_container"
+                class="com.github.coxylicacid.mdwidgets.toast.SnailBar$SnailLimitedHeightView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:heightRatio="0.65">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <TextView
+                        android:id="@+id/snailbar_behind_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:textColor="#FFF"
+                        android:textSize="14sp" />
+
+                </ScrollView>
+
+            </view>
+
+        </LinearLayout>
 
     </LinearLayout>
 

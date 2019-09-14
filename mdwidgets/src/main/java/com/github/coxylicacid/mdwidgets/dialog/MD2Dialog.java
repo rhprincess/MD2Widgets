@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * @author Krins
- * @version 0.0.1-alpha03
+ * @version 0.0.1-alpha04
  */
 
 public class MD2Dialog {
