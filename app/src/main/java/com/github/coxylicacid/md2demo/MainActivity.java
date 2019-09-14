@@ -20,15 +20,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                SnailBar.make(MainActivity.this, "你好", SnailBar.LENGTH_SHORT)
+                String msg = "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n"
+                        + "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n";
+
+                SnailBar.make(MainActivity.this, msg, SnailBar.LENGTH_SHORT)
                         .gravity(SnailBar.Gravity.BOTTOM)
-                        .wrapMode(true)
-                        .icon(R.mipmap.ic_launcher_round)
                         .anime(SnailBar.Anime.CIRCULAR_REVEAL)
-                        .action("确定", new SnailBar.SnailBarActionListenerAdapter() {
+                        .wrapMode(true)
+                        .useExpandMode()
+                        .icon(R.mipmap.ic_launcher_round)
+                        .action("??", new SnailBar.SnailBarActionListenerAdapter() {
                             @Override
                             public void onClick(View view, SnailBar snailBar) {
-                                snailBar.msg("你点了确定");
+                                snailBar.msg("What?");
                             }
                         }).show();
                 n++;
