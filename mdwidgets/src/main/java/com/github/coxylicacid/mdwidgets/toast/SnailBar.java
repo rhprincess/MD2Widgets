@@ -162,9 +162,13 @@ public class SnailBar {
                     case MotionEvent.ACTION_DOWN:
                     case MotionEvent.ACTION_MOVE:
                         durationHandler.removeCallbacks(runnable);
+                        if (listener != null)
+                            listener.onPaused(instance);
                         break;
                     case MotionEvent.ACTION_UP:
                         durationHandler.postDelayed(runnable, 1850);
+                        if (listener != null)
+                            listener.onResumed(instance);
                         break;
                 }
                 return false;
@@ -380,6 +384,17 @@ public class SnailBar {
                 defaultGravity = Gravity.CENTER_RIGHT;
                 break;
         }
+        return this;
+    }
+
+    /**
+     * 监听SnailBar的相关事件
+     *
+     * @param lis 监听器
+     * @return {@link SnailBar}
+     */
+    public SnailBar listenSnail(SnailBarListener lis) {
+        listener = lis;
         return this;
     }
 
@@ -639,7 +654,7 @@ public class SnailBar {
          * 按钮点击事件
          *
          * @param view     返回按钮
-         * @param snailBar 返回SnailBar
+         * @param snailBar 返回{@link SnailBar}
          */
         void onClick(View view, SnailBar snailBar);
     }
@@ -651,23 +666,46 @@ public class SnailBar {
         /**
          * SnailBar已显示事件
          *
-         * @param snailBar 返回SnailBar
+         * @param snailBar 返回{@link SnailBar}
          */
         void onShown(SnailBar snailBar);
 
         /**
          * SnailBar已取消事件
          *
-         * @param snailBar 返回SnailBar
+         * @param snailBar 返回{@link SnailBar}
          */
         void onDismissed(SnailBar snailBar);
+
+        /**
+         * SnailBar暂时停止事件（当触碰SnailBar的时候激活）
+         *
+         * @param snailBar 返回{@link SnailBar}
+         */
+        void onPaused(SnailBar snailBar);
+
+        /**
+         * Snailbar恢复事件（当触碰取消的时候激活）
+         *
+         * @param snailBar 返回{@link SnailBar}
+         */
+        void onResumed(SnailBar snailBar);
     }
 
-    private static int getStatusBarHeight(Context context) {
+    private static float getStatusBarHeight(Context context) {
         Resources resources = context.getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         int height = resources.getDimensionPixelSize(resourceId);
-        return height;
+        if (height != 0) {
+            return height;
+        } else {
+            return dp2px(20);
+        }
+    }
+
+    private static int dp2px(float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 
 }
