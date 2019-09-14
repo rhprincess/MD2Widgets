@@ -493,22 +493,6 @@ public class SnailBar {
         }
     }
 
-    private static void limitExpanderHeight() {
-        if (isExpanderOnTop) {
-            if (container.getHeight() >= dp2px(250)) {
-                expanderBehind.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp2px(250)));
-            } else {
-                expanderBehind.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            }
-        } else {
-            if (container.getHeight() >= dp2px(250)) {
-                expanderFront.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp2px(250)));
-            } else {
-                expanderFront.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            }
-        }
-    }
-
     /**
      * 监听SnailBar的相关事件
      *
