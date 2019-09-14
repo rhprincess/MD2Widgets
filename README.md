@@ -1,5 +1,7 @@
 ### MD2Widgets
 
+[ ![下载](https://api.bintray.com/packages/coxylicacid-official/MD2Widgets/mdwidgets/images/download.svg?version=0.0.1-alpha05) ](https://bintray.com/coxylicacid-official/MD2Widgets/mdwidgets/0.0.1-alpha05/link)
+
 ##### 使用方法
 
 ```gradle
