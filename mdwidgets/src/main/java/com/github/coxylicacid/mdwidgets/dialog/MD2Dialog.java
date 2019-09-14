@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * @author Krins
- * @version 0.0.1-alpha01
+ * @version 0.0.1-alpha02
  */
 
 public class MD2Dialog {
@@ -73,6 +73,19 @@ public class MD2Dialog {
     public enum ButtonStyle {
         FLAT, OUTLINE, FILL
     }
+
+    /**
+     * 错误颜色
+     */
+    public static final int COLOR_ERROR = 0xFFF44336;
+    /**
+     * 成功颜色
+     */
+    public static final int COLOR_SUCCESSFUL = 0xFF4CAF50;
+    /**
+     * 警告颜色
+     */
+    public static final int COLOR_WARNING = 0xFFFF5722;
 
     /**
      * @param context 上下文
@@ -286,8 +299,8 @@ public class MD2Dialog {
                 android.R.attr.textColorPrimary,
                 android.R.attr.colorAccent,
         });
-        int textColor = array.getColor(1, 0xFF000000);
-        int colorAccent = array.getColor(2, context.getResources().getColor(R.color.md2widgets_dialog_accent));
+        int textColor = array.getColor(0, 0xFF000000);
+        int colorAccent = array.getColor(1, context.getResources().getColor(R.color.md2widgets_dialog_accent));
         array.recycle();
 
         msgColor(getBrighterColor(textColor));
