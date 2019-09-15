@@ -601,6 +601,12 @@ public class SnailBar {
         return this;
     }
 
+    /**
+     * 绑定到Fab上（针对性）
+     *
+     * @param fab FloatingActionButton
+     * @return {@link SnailBar}
+     */
     public SnailBar attachToFab(FloatingActionButton fab) {
         fabButton = fab;
         isAttachToFab = true;
