@@ -12,7 +12,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "0.0.1-alpha05"
+        versionName "0.0.1-alpha06"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -43,7 +43,7 @@ dependencies {
     api "com.google.android.material:material:1.1.0-alpha10"
 }
 
-version = "0.0.1-alpha05"
+version = "0.0.1-alpha06"
 
 def siteUrl = 'https://github.com/coxylicacid/MD2Widgets'
 def gitUrl = 'git@github.com:coxylicacid/MD2Widgets.git'

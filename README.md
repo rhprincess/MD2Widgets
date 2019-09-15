@@ -1,12 +1,12 @@
 ### MD2Widgets
 
-[ ![下载](https://api.bintray.com/packages/coxylicacid-official/MD2Widgets/mdwidgets/images/download.svg?version=0.0.1-alpha05) ](https://bintray.com/coxylicacid-official/MD2Widgets/mdwidgets/0.0.1-alpha05/link)
+[ ![下载](https://api.bintray.com/packages/coxylicacid-official/MD2Widgets/mdwidgets/images/download.svg?version=0.0.1-alpha06) ](https://bintray.com/coxylicacid-official/MD2Widgets/mdwidgets/0.0.1-alpha06/link)
 
 ##### 使用方法
 
 ```gradle
 api "com.google.android.material:material:1.1.0-alpha10" //这个是必须引入的，官方的库，且需要使用api引入
-implementation 'com.github.coxylicacid:mdwidgets:0.0.1-alpha05' //该扩展库
+implementation 'com.github.coxylicacid:mdwidgets:0.0.1-alpha06' //该扩展库
 ```
 
 ##### 修改您App的主题
