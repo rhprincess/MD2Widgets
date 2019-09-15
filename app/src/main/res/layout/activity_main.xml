@@ -13,4 +13,12 @@
         android:layout_centerInParent="true"
         android:text="Show" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="16dp" />
+
 </RelativeLayout>

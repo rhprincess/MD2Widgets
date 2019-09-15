@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.coxylicacid.mdwidgets.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * @author Krins
@@ -49,6 +50,7 @@ public class SnailBar {
     private static SnailBarListener listener;
     private static ImageView _icon;
     private static ImageView _expand;
+    private static FloatingActionButton fabButton;
 
     private static LinearLayout expanderFront;
     private static LinearLayout expanderBehind;
@@ -62,6 +64,11 @@ public class SnailBar {
     private static boolean isUsingExpandMode = false;
     private static boolean isExpanderOnTop = false;
     private static boolean isExpanded = false;
+
+    private static boolean isAttachToFab = false;
+    private static boolean isFirstShow = true;
+
+    private static int maxExpandedMsg = 10;
 
     /**
      * Gravity 位置方向
@@ -332,10 +339,19 @@ public class SnailBar {
                             closeInSchedule(_duration);
                         break;
                 }
+
                 if (listener != null)
                     listener.onShown(instance);
+
+                isFirstShow = false;
             }
         });
+
+        if (isAttachToFab) {
+            ObjectAnimator fabTrans = ObjectAnimator.ofFloat(fabButton, "translationY", 0, -container.getHeight() + dp2px(10));
+            fabTrans.setDuration(150);
+            fabTrans.start();
+        }
     }
 
     private static void closeAnimation(Anime anime) {
@@ -401,6 +417,19 @@ public class SnailBar {
                     listener.onDismissed(instance);
             }
         });
+
+        if (isAttachToFab) {
+            ObjectAnimator fabTrans = ObjectAnimator.ofFloat(fabButton, "translationY", -container.getHeight() + dp2px(10), 0);
+            fabTrans.setDuration(150);
+            fabTrans.start();
+            fabTrans.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    isAttachToFab = false;
+                }
+            });
+        }
     }
 
     private void closeInSchedule(int _duration) {
@@ -489,7 +518,13 @@ public class SnailBar {
     private static void setExpandMode() {
         if (isUsingExpandMode && (content.getLineCount() > 3 || container.getHeight() > dp2px(40) * 2.5)) {
             _expand.setVisibility(View.VISIBLE);
-            content.setText((_msg.substring(0, 10) + "...").replace("\n", ""));
+            content.setText((_msg.substring(0, maxExpandedMsg) + "...").replace("\n", ""));
+        }
+
+        if (isAttachToFab && isFirstShow) {
+            ObjectAnimator fabTrans = ObjectAnimator.ofFloat(fabButton, "translationY", 0, -container.getHeight() + dp2px(10));
+            fabTrans.setDuration(150);
+            fabTrans.start();
         }
     }
 
@@ -562,6 +597,19 @@ public class SnailBar {
         } else {
             container.setX((float) (v.getX() - (container.getWidth() * 0.36)));
             container.setY((float) (v.getY() + container.getHeight() * 0.36));
+        }
+        return this;
+    }
+
+    public SnailBar attachToFab(FloatingActionButton fab) {
+        fabButton = fab;
+        isAttachToFab = true;
+        if (fab.getX() > decorView.getWidth() * 0.65) {
+            gravity(Gravity.BOTTOM_RIGHT);
+        } else if (fab.getX() < decorView.getWidth() * 0.35) {
+            gravity(Gravity.BOTTOM_LEFT);
+        } else {
+            gravity(Gravity.BOTTOM);
         }
         return this;
     }
@@ -705,14 +753,14 @@ public class SnailBar {
                 if (isExpanderOnTop) {
                     if (isExpanded) {
                         textBehind.setText(s);
-                        content.setText(String.format("%s...", s.substring(0, 10).replace("\n", "")));
+                        content.setText(String.format("%s...", s.substring(0, maxExpandedMsg).replace("\n", "")));
                     } else {
                         updateMsgOnExpandMode(content, s);
                     }
                 } else {
                     if (isExpanded) {
                         textFront.setText(s);
-                        content.setText(String.format("%s...", s.substring(0, 10).replace("\n", "")));
+                        content.setText(String.format("%s...", s.substring(0, maxExpandedMsg).replace("\n", "")));
                     } else {
                         updateMsgOnExpandMode(content, s);
                     }
@@ -738,14 +786,14 @@ public class SnailBar {
                 if (isExpanderOnTop) {
                     if (isExpanded) {
                         textBehind.setText(context.getString(resId));
-                        content.setText(String.format("%s...", context.getString(resId).substring(0, 10).replace("\n", "")));
+                        content.setText(String.format("%s...", context.getString(resId).substring(0, maxExpandedMsg).replace("\n", "")));
                     } else {
                         updateMsgOnExpandMode(content, context.getString(resId));
                     }
                 } else {
                     if (isExpanded) {
                         textFront.setText(context.getString(resId));
-                        content.setText(String.format("%s...", context.getString(resId).substring(0, 10).replace("\n", "")));
+                        content.setText(String.format("%s...", context.getString(resId).substring(0, maxExpandedMsg).replace("\n", "")));
                     } else {
                         updateMsgOnExpandMode(content, context.getString(resId));
                     }
@@ -758,11 +806,57 @@ public class SnailBar {
     }
 
     private void updateMsgOnExpandMode(TextView v, String s) {
-        if (s.length() > 10) {
-            v.setText(String.format("%s...", s.substring(0, 10).replace("\n", "")));
+        if (s.length() > maxExpandedMsg) {
+            v.setText(String.format("%s...", s.substring(0, maxExpandedMsg).replace("\n", "")));
         } else {
             v.setText(s);
         }
+    }
+
+    /**
+     * 消息最大折叠数
+     *
+     * @param max 最大折叠值
+     * @return {@link SnailBar}
+     */
+    public SnailBar expandMax(int max) {
+        maxExpandedMsg = max;
+        return this;
+    }
+
+    /**
+     * 设置消息可复制性
+     *
+     * @param selectable 是否可复制
+     * @return {@link SnailBar}
+     */
+    public SnailBar msgSelectable(boolean selectable) {
+        if (selectable) {
+            content.setEnabled(true);
+            content.setTextIsSelectable(true);
+            content.setLongClickable(true);
+
+            textFront.setEnabled(true);
+            textFront.setTextIsSelectable(true);
+            textFront.setLongClickable(true);
+
+            textBehind.setEnabled(true);
+            textBehind.setTextIsSelectable(true);
+            textBehind.setLongClickable(true);
+        } else {
+            content.setEnabled(false);
+            content.setTextIsSelectable(false);
+            content.setLongClickable(false);
+
+            textFront.setEnabled(false);
+            textFront.setTextIsSelectable(false);
+            textFront.setLongClickable(false);
+
+            textBehind.setEnabled(false);
+            textBehind.setTextIsSelectable(false);
+            textBehind.setLongClickable(false);
+        }
+        return this;
     }
 
     /**

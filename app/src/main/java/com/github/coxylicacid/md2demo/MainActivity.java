@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.coxylicacid.mdwidgets.toast.SnailBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -15,26 +16,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button show = findViewById(R.id.show);
+        final FloatingActionButton fab = findViewById(R.id.fab);
+
         show.setOnClickListener(new View.OnClickListener() {
             int n = 0;
 
             @Override
             public void onClick(View view) {
-                String msg = "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n"
-                        + "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n" + "Hello World!\n\n";
-
-                SnailBar.make(MainActivity.this, msg, SnailBar.LENGTH_SHORT)
-                        .gravity(SnailBar.Gravity.BOTTOM)
-                        .anime(SnailBar.Anime.CIRCULAR_REVEAL)
+                SnailBar.make(MainActivity.this, "Emmmmmmmmmmm", SnailBar.LENGTH_SHORT)
+                        .attachToFab(fab)
                         .wrapMode(true)
-                        .useExpandMode()
+                        .anime(SnailBar.Anime.SLIDE_FROM_SIDE)
                         .icon(R.mipmap.ic_launcher_round)
-                        .action("??", new SnailBar.SnailBarActionListenerAdapter() {
-                            @Override
-                            public void onClick(View view, SnailBar snailBar) {
-                                snailBar.msg("What?");
-                            }
-                        }).show();
+                        .show();
                 n++;
             }
         });
