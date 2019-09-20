@@ -57,6 +57,8 @@ public class SnailBar {
     private static TextView textFront;
     private static TextView textBehind;
 
+    private static View targetAttachView;
+
     public final static int LENGTH_LONG = -0;
     public final static int LENGTH_SHORT = -1;
     public final static int LENGTH_NEVER = -2;
@@ -67,6 +69,9 @@ public class SnailBar {
 
     private static boolean isAttachToFab = false;
     private static boolean isFirstShow = true;
+    private static boolean isTargetViewOnTop = false;
+
+    private static float attachY = 0;
 
     private static int maxExpandedMsg = 10;
 
@@ -221,6 +226,10 @@ public class SnailBar {
             expanderFront.setVisibility(View.VISIBLE);
             textFront.setText(_msg);
         }
+
+        if (isTargetViewOnTop) {
+            container.setY(attachY + container.getHeight() * 2.5f);
+        }
     }
 
     private static void closeExpander() {
@@ -236,6 +245,10 @@ public class SnailBar {
         } else {
             _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
             expanderFront.setVisibility(View.GONE);
+        }
+
+        if (isTargetViewOnTop) {
+            container.setY(targetAttachView.getY());
         }
     }
 
@@ -318,6 +331,14 @@ public class SnailBar {
                 animatorSet.setDuration(animeDuration * 3);
                 animatorSet.start();
                 break;
+        }
+
+        if (targetAttachView != null && isFirstShow) {
+            if ((targetAttachView.getY() + container.getHeight() * 0.36 < decorView.getHeight() * 0.3) && isUsingExpandMode) {
+                defaultGravity = Gravity.TOP;
+                useExpandMode();
+                isTargetViewOnTop = true;
+            }
         }
 
         animatorSet.addListener(new AnimatorListenerAdapter() {
@@ -588,15 +609,17 @@ public class SnailBar {
      * @return {@link SnailBar}
      */
     public SnailBar attachTo(View v) {
+        targetAttachView = v;
+        attachY = v.getY() + container.getHeight() * 0.36f;
         if ((v.getX() + (container.getWidth() * 0.36)) > decorView.getWidth()) {
             container.setX(decorView.getWidth() - container.getWidth());
-            container.setY((float) (v.getY() + container.getHeight() * 0.36));
+            container.setY(v.getY() + container.getHeight() * 0.36f);
         } else if (v.getX() - (container.getWidth() * 0.36) < 0) {
             container.setX(0);
-            container.setY((float) (v.getY() + container.getHeight() * 0.36));
+            container.setY(v.getY() + container.getHeight() * 0.36f);
         } else {
-            container.setX((float) (v.getX() - (container.getWidth() * 0.36)));
-            container.setY((float) (v.getY() + container.getHeight() * 0.36));
+            container.setX(v.getX() - (container.getWidth() * 0.36f));
+            container.setY(v.getY() + container.getHeight() * 0.36f);
         }
         return this;
     }
