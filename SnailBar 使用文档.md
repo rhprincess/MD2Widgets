@@ -83,13 +83,13 @@ SnailBar.getIntance(activity);
 ### <span id="useExpandMode">3. useExpandMode()  </span>
 >使用消息扩展模式
 >具体来讲就是，当你的消息内容超过某一最大限度值时，自动折叠掉，并且允许用户自行展开
->设置折叠后可显示的字数可以使用 [expandMax](#14. expandMax(int max)) 方法
+>设置折叠后可显示的字数可以使用 [expandMax](#expandMax) 方法
 >
 >![1569071282728](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071282728.png?raw=true)
 >
 ><div align="center";><font size="2">消息折叠</font></div>
 >
->![1569071759531](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071759531.png?raw=true)
+><div align="center";>![1569071759531](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071759531.png?raw=true)</div>
 >
 ><div align="center";><font size="2">消息展开</font></div>
 
