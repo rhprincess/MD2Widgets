@@ -7,11 +7,8 @@
 [Github地址](https://github.com/coxylicacid/MD2Widgets)
 
 - [函数方法](#函数方法)
-
-  [获取实例](#获取实例的方法  getIntance(AppCompatActivity activity)) 
-  
-  [make](#1. make(AppCompatActivity activity, String msg, int length))
-  
+  [获取实例](#获取实例的方法) 
+  [make](#make)
   [gravity](#2. gravity(Gravity gravity))
   [useExpandMode](#3. useExpandMode())
   [listenSnail](#4. listenSnail(SnailBarListener lis))
@@ -34,10 +31,10 @@
   [msgColor](#21. msgColor(int color))
 
 - [监听器以及接口](#监听以及接口)
-  [SnailBarListener](#SnailBarListener)
-  [SnailBarListenerAdapter](#SnailBarListenerAdapter)
-  [SnailBarActionListener](#SnailBarActionListener)
-  [SnailBarActionListenerAdapter](#SnailBarActionListenerAdapter)
+  [SnailBarListener](#SnailBarListener)  
+  [SnailBarListenerAdapter](#SnailBarListenerAdapter)  
+  [SnailBarActionListener](#SnailBarActionListener)  
+  [SnailBarActionListenerAdapter](#SnailBarActionListenerAdapter)  
 - [其它](#其它)
 
 ## 函数方法
