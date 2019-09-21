@@ -85,11 +85,11 @@ SnailBar.getIntance(activity);
 >具体来讲就是，当你的消息内容超过某一最大限度值时，自动折叠掉，并且允许用户自行展开
 >设置折叠后可显示的字数可以使用 [expandMax](#14. expandMax(int max)) 方法
 >
-><img src="C:\Users\walke\AppData\Roaming\Typora\typora-user-images\1569071282728.png" alt="1569071282728"/>
+><img src="C:\Users\walke\AppData\Roaming\Typora\typora-user-images\1569071282728.png?raw=true" alt="1569071282728"/>
 >
 ><div align="center";><font size="2">消息折叠</font></div>
 >
->![1569071759531](snail_img\1569071759531.png)
+>![1569071759531](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071759531.png?raw=true)
 >
 ><div align="center";><font size="2">消息展开</font></div>
 
@@ -132,11 +132,11 @@ SnailBar.getIntance(activity);
 > 强制自适应或不自适应SnailBar宽度
 > 参数值：是否自适应
 >
-> ![1569071845219](snail_img\1569071845219.png)
+> ![1569071845219](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071845219.png?raw=true)
 >
 > <div align="center";><font size="2">自适应</font></div>
 >
-> ![1569071899094](snail_img\1569071899094.png)
+> ![1569071899094](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071899094.png?raw=true)
 >
 > <div align="center";><font size="2">不自适应</font></div>
 
@@ -168,7 +168,7 @@ SnailBar.getIntance(activity);
 > 针对性地将SnailBar绑定到一个FloatingActionButton（浮动按钮）上
 > 主要是用于SnailBar将浮动按钮遮挡住的情况，用了该方法后，浮动按钮会自动躲避SnailBar
 >
-> ![1569071955196](snail_img\1569071955196.png)
+> ![1569071955196](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071955196.png?raw=true)
 >
 > <div align="center";><font size="2">自动闪避</font></div>
 
@@ -190,7 +190,7 @@ SnailBar.getIntance(activity);
 > `icon(Bitmap bitmap)`
 > 参数bitmap：设置图标的bitmap
 >
-> ![1569072054552](snail_img\1569072054552.png)
+> ![1569072054552](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072054552.png?raw=true)
 >
 > <div align="center";><font size="2">设置图标</font></div>
 
@@ -199,7 +199,7 @@ SnailBar.getIntance(activity);
 > 给SnailBar上的图标染色（着色）
 > 参数color：颜色值
 >
-> ![1569072147728](snail_img\1569072147728.png)
+> ![1569072147728](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072147728.png?raw=true)
 >
 > <div align="center";><font size="2">图标着色</font></div>
 
@@ -218,7 +218,7 @@ SnailBar.getIntance(activity);
 > `3. backgroundResources(int resId)`
 > 设置背景，输入参数为drawable资源id值，例如：<font color="#2196F3">R.drawable.snail_bg</font>
 >
-> ![1569072330606](snail_img\1569072330606.png)
+> ![1569072330606](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072330606.png?raw=true)
 >
 > <div align="center";><font size="2">设置背景颜色</font></div>
 
@@ -253,7 +253,7 @@ SnailBar.getIntance(activity);
 > 设置消息的可复制性
 > 如果参数selectable为true的话，可以让消息变得可以复制
 >
-> ![1569072410457](snail_img\1569072410457.png)
+> ![1569072410457](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072410457.png?raw=true)
 >
 > <div align="center";><font size="2">复制消息</font></div>
 
@@ -293,7 +293,7 @@ SnailBar.getIntance(activity);
 > ```
 >
 
-> ![1569072589245](snail_img\1569072589245.png)
+> ![1569072589245](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072589245.png?raw=true)
 >
 > <div align="center";><font size="2">设置按钮</font></div>
 
@@ -316,7 +316,7 @@ SnailBar.getIntance(activity);
 > 设置SnailBar按钮的颜色
 > 参数color为颜色值
 >
-> ![1569072689674](snail_img\1569072689674.png)
+> ![1569072689674](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072689674.png?raw=true)
 >
 > <div align="center";><font size="2">设置按钮颜色为红色</font></div>
 
@@ -325,7 +325,7 @@ SnailBar.getIntance(activity);
 > 设置SnailBar消息的颜色
 > 参数color为颜色值
 >
-> ![1569072740412](snail_img\1569072740412.png)
+> ![1569072740412](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569072740412.png?raw=true)
 >
 > <div align="center";><font size="2">设置消息颜色为红色</font></div>
 
