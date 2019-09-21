@@ -6,29 +6,29 @@
 
 [Github地址](https://github.com/coxylicacid/MD2Widgets)
 
-- [函数方法](#函数方法)
+- [函数方法](#函数方法)  
   [获取实例](#intance)  
   [make](#make)  
-  [gravity](#2. gravity(Gravity gravity))  
-  [useExpandMode](#3. useExpandMode())  
-  [listenSnail](#4. listenSnail(SnailBarListener lis))  
-  [wrapMode](#5.wrapMode(boolean wrap))  
-  [anime](#6. anime(Anime anime))  
-  [attachTo](#7. attachTo(View v))  
-  [attachToFab](#8. attachToFab(FloatingActionButton fab) )  
-  [contentView](#9. contentView(int layout))  
-  [icon](#10. icon(int resId))  
-  [iconTint](#11. iconTint(int color))  
-  [background](#12. background(Drawable drawable))  
-  [msg](#13. msg(String s))  
-  [expandMax](#14. expandMax(int max))  
-  [msgSelectable](#15. msgSelectable(boolean selectable))  
-  [action](#16. action(String text, SnailBarActionListener listener))  
-  [duration](#17. duration(int length))  
-  [show](#18. show())  
-  [dismiss](#19. dismiss())  
-  [actionTextColor](#20. actionTextColor(int color))  
-  [msgColor](#21. msgColor(int color))  
+  [gravity](#gravity)  
+  [useExpandMode](#useExpandMode)  
+  [listenSnail](#listenSnail)  
+  [wrapMode](#wrapMode)  
+  [anime](#anime)  
+  [attachTo](#attachTo)  
+  [attachToFab](#attachToFab)  
+  [contentView](#contentView)  
+  [icon](#icon)  
+  [iconTint](#iconTint)  
+  [background](#background)  
+  [msg](#msg)  
+  [expandMax](#expandMax)  
+  [msgSelectable](#msgSelectable)  
+  [action](#action)  
+  [duration](#duration)  
+  [show](#show)  
+  [dismiss](#dismiss)  
+  [actionTextColor](#actionTextColor)  
+  [msgColor](#msgColor)  
 
 - [监听器以及接口](#监听以及接口)
   [SnailBarListener](#SnailBarListener)  
@@ -46,7 +46,7 @@
 SnailBar.getIntance(activity);
 ```
 
-### 1. make(AppCompatActivity activity, String msg, int length)   
+### <span id="make">1. make(AppCompatActivity activity, String msg, int length)   </span>
 > 该方法用于创建并返回SnailBar实例
 > 第一个参数为SnailBar所在的Activity活动，它必须是AppCompatActivity
 > 第二个参数是传入的消息字符串
@@ -64,7 +64,7 @@ SnailBar.getIntance(activity);
 > 基本上和原方法一致，不过该方法的第二个消息值可以是资源文件 <font color="#F44336">strings.xml</font> 中所设置的字符串值
 > 例如: <font color="#2196F3">R.srings.hello_world</font>
 
-### 2. gravity(Gravity gravity)  
+### <span id="gravity">2. gravity(Gravity gravity)  </span>
 >该方法用于设置SnailBar的重心位置
 >```java
 >/**
@@ -80,7 +80,7 @@ SnailBar.getIntance(activity);
 > private static Gravity defaultGravity = Gravity.BOTTOM; //默认的重心方向为底部且居中
 > ```
 
-### 3. useExpandMode()  
+### <span id="useExpandMode">3. useExpandMode()  </span>
 >使用消息扩展模式
 >具体来讲就是，当你的消息内容超过某一最大限度值时，自动折叠掉，并且允许用户自行展开
 >设置折叠后可显示的字数可以使用 [expandMax](#14. expandMax(int max)) 方法
@@ -93,7 +93,7 @@ SnailBar.getIntance(activity);
 >
 ><div align="center";><font size="2">消息展开</font></div>
 
-### 4. listenSnail(SnailBarListener lis)  
+### <span id="listenSnail">4. listenSnail(SnailBarListener lis)  </span>
 >监听SnailBar的各种事件，参数为SnailBar的监听器
 >目前有两种SnailBar的监听器，一种是需要实现监听器接口所有方法的 [SnailBarListener](#SnailBarListener)，另一种则是不需要全部实现的适配器 [SnailBarListenerAdapter](#SnailBarListenerAdapter)
 >
@@ -127,7 +127,7 @@ SnailBar.getIntance(activity);
 >
 >
 
-### 5.wrapMode(boolean wrap)  
+### <span id="wrapMode">5.wrapMode(boolean wrap)  </span>
 
 > 强制自适应或不自适应SnailBar宽度
 > 参数值：是否自适应
@@ -140,7 +140,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">不自适应</font></div>
 
-### 6. anime(Anime anime)  
+### <span id="anime">6. anime(Anime anime)  </span>
 
 > 设置默认的SnailBar过渡动画（显示和关闭的动画）
 > 拓展用法：
@@ -157,13 +157,13 @@ SnailBar.getIntance(activity);
 >     private static Anime defaultAnime = Anime.SLIDE; // 默认的过渡动画为从下边滑入
 > ```
 
-### 7. attachTo(View v)  
+### <span id="attachTo">7. attachTo(View v)  </span>
 
 > 将SnailBar绑定到一个View上面，显示的时候将会悬浮在View上方
 > 目前较不稳定，可能会出现一些错误，但在大部分情况下是能正常使用的
 > 参数v为需要绑定的控件
 
-### 8. attachToFab(FloatingActionButton fab)  
+### <span id="attachToFab">8. attachToFab(FloatingActionButton fab)  </span>
 
 > 针对性地将SnailBar绑定到一个FloatingActionButton（浮动按钮）上
 > 主要是用于SnailBar将浮动按钮遮挡住的情况，用了该方法后，浮动按钮会自动躲避SnailBar
@@ -172,7 +172,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">自动闪避</font></div>
 
-### 9. contentView(int layout)  
+### <span id="contentView">9. contentView(int layout)  </span>
 
 > 设置SnailBar的布局
 > 参数layout：布局资源的id值，如：<font color="#2196F3">R.layout.snailbar_layout</font>
@@ -181,7 +181,7 @@ SnailBar.getIntance(activity);
 > `contentView(ViewGroup layout)`
 > 参数layout：指定的ViewGroup
 
-### 10. icon(int resId)  
+### <span id="icon">10. icon(int resId)  </span>
 
 > 设置SnailBar消息上显示的图标
 > 参数resId：drawable资源id值，如：<font color="#2196F3">R.drawable.snail_icon</font>
@@ -194,7 +194,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">设置图标</font></div>
 
-### 11. iconTint(int color)  
+### <span id="iconTint">11. iconTint(int color)  </span>
 
 > 给SnailBar上的图标染色（着色）
 > 参数color：颜色值
@@ -203,7 +203,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">图标着色</font></div>
 
-### 12. background(Drawable drawable)  
+### <span id="background">12. background(Drawable drawable)  </span>
 
 > 设置SnailBar的背景
 > 参数drawable：Drawable背景
@@ -222,7 +222,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">设置背景颜色</font></div>
 
-### 13. msg(String s)  
+### <span id="msg">13. msg(String s)  </span>
 
 > 设置消息字符串，一般不怎么用到，但可用于随时更改弹出的SnailBar的消息
 > 例：
@@ -244,11 +244,11 @@ SnailBar.getIntance(activity);
 > SnailBar.make(MainActivity.this, R.string.sail_msg, SnailBar.LENGTH_LONG).show();
 > ```
 
-### 14. expandMax(int max)  
+### <span id="expandMax">14. expandMax(int max)  </span>
 
 >设置SnailBar消息的最大折叠字数
 
-### 15. msgSelectable(boolean selectable)  
+### <span id="msgSelectable">15. msgSelectable(boolean selectable)  </span>
 
 > 设置消息的可复制性
 > 如果参数selectable为true的话，可以让消息变得可以复制
@@ -257,7 +257,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">复制消息</font></div>
 
-### 16. action(String text, SnailBarActionListener listener)  
+### <span id="action">16. action(String text, SnailBarActionListener listener)  </span>
 
 > 设置SnailBar上的按钮并且设置点击事件
 >
@@ -297,21 +297,21 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">设置按钮</font></div>
 
-### 17. duration(int length)  
+### <span id="duration">17. duration(int length)  </span>
 
 > 设置SnailBar的时长，用得较少，可在SnailBar显示一段时间后更改其显示事件
 >
-> 参数length见 [make](#1. make(AppCompatActivity activity, String msg, int length)) 方法中的介绍
+> 参数length见 [make](#make) 方法中的介绍
 
-### 18. show()
+### <span id="show">18. show()</span>
 
 > 显示SnailBar
 
-### 19. dismiss()
+### <span id="dismiss">19. dismiss()</span>
 
 > 关闭SnailBar
 
-### 20. actionTextColor(int color)
+### <span id="actionTextColor">20. actionTextColor(int color)</span>
 
 > 设置SnailBar按钮的颜色
 > 参数color为颜色值
@@ -320,7 +320,7 @@ SnailBar.getIntance(activity);
 >
 > <div align="center";><font size="2">设置按钮颜色为红色</font></div>
 
-### 21. msgColor(int color)
+### <span id="msgColor">21. msgColor(int color)</span>
 
 > 设置SnailBar消息的颜色
 > 参数color为颜色值
