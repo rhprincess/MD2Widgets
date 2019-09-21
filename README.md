@@ -2,6 +2,8 @@
 
 [ ![下载](https://api.bintray.com/packages/coxylicacid-official/MD2Widgets/mdwidgets/images/download.svg?version=0.0.1-alpha07) ](https://bintray.com/coxylicacid-official/MD2Widgets/mdwidgets/0.0.1-alpha07/link)
 
+##### [SnailBar使用方法](https://github.com/coxylicacid/MD2Widgets/blob/master/SnailBar%20%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.md)
+
 ##### 使用方法
 
 ```gradle
