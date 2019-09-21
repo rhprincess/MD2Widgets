@@ -88,7 +88,7 @@ SnailBar.getIntance(activity);
 >具体来讲就是，当你的消息内容超过某一最大限度值时，自动折叠掉，并且允许用户自行展开
 >设置折叠后可显示的字数可以使用 [expandMax](#14. expandMax(int max)) 方法
 >
-><img src="C:\Users\walke\AppData\Roaming\Typora\typora-user-images\1569071282728.png?raw=true" alt="1569071282728"/>
+>![1569071282728](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071282728.png?raw=true)
 >
 ><div align="center";><font size="2">消息折叠</font></div>
 >
