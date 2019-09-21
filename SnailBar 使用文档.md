@@ -89,7 +89,7 @@ SnailBar.getIntance(activity);
 >
 ><div align="center";><font size="2">消息折叠</font></div>
 >
-><div align="center";>![1569071759531](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071759531.png?raw=true)</div>
+>![1569071759531](https://github.com/coxylicacid/MD2Widgets/blob/master/snail_img/1569071759531.png?raw=true)
 >
 ><div align="center";><font size="2">消息展开</font></div>
 
