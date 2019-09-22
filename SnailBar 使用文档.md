@@ -68,11 +68,11 @@ SnailBar.getIntance(activity);
 >该方法用于设置SnailBar的重心位置
 >```java
 >/**
-  * Gravity 重心方向
-  * TOP: 上面, TOP_LEFT: 左上, TOP_RIGHT: 右上, BOTTOM: 下面,
-  * BOTTOM_LEFT: 左下, BOTTOM_RIGHT: 右下, CENTER: 中间,
-  * CENTER_LEFT: 左中, CENTER_RIGHT: 右中
-  */
+> * Gravity 重心方向
+> * TOP: 上面, TOP_LEFT: 左上, TOP_RIGHT: 右上, BOTTOM: 下面,
+> * BOTTOM_LEFT: 左下, BOTTOM_RIGHT: 右下, CENTER: 中间,
+> * CENTER_LEFT: 左中, CENTER_RIGHT: 右中
+> */
 > public enum Gravity {
 > 	TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT,
 > 	BOTTOM_RIGHT, CENTER, CENTER_LEFT, CENTER_RIGHT
