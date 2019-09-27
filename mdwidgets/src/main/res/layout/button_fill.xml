@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="15dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -19,7 +20,7 @@
         android:textColor="#FFF"
         android:textSize="13sp"
         android:visibility="gone"
-        app:rippleColor="@color/md2widgets_dialog_accent"
+        app:rippleColor="@color/coxylicDialogAccent"
         tools:text="消极"
         tools:visibility="visible" />
 
@@ -37,7 +38,7 @@
         android:textColor="#FFF"
         android:textSize="13sp"
         android:visibility="gone"
-        app:rippleColor="@color/md2widgets_dialog_accent"
+        app:rippleColor="@color/coxylicDialogAccent"
         tools:text="确认"
         tools:visibility="visible" />
 

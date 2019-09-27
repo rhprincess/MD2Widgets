@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
 import com.github.coxylicacid.mdwidgets.R;
@@ -30,7 +32,7 @@ import java.util.List;
 
 /**
  * @author Krins
- * @version 0.0.1-alpha08
+ * @version 0.0.1-alpha09
  */
 
 public class MD2Dialog {
@@ -64,6 +66,8 @@ public class MD2Dialog {
     private SingleChoiceListener choiceLis;
     private boolean isLoadingMode = false;
 
+    private ButtonStyle defaultButtonStyle = ButtonStyle.FILL;
+
     /**
      * 按钮的样式
      * FLAT : 透明的按钮
@@ -71,7 +75,7 @@ public class MD2Dialog {
      * FILL : 默认按钮样式
      */
     public enum ButtonStyle {
-        FLAT, OUTLINE, FILL
+        AGREEMENT, FLAT, OUTLINE, FILL
     }
 
     /**
@@ -149,11 +153,9 @@ public class MD2Dialog {
     private void initButtons() {
         confirm = buttonViews.findViewById(R.id.md2_dialog_confirm);
         cancel = buttonViews.findViewById(R.id.md2_dialog_cancel);
-        negative = buttonViews.findViewById(R.id.md2_dialog_negative);
 
         confirm.setText("确定");
         cancel.setText("取消");
-        negative.setText("隐藏");
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,15 +177,20 @@ public class MD2Dialog {
             }
         });
 
-        negative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (_lis_negative != null)
-                    _lis_negative.onClick(view, MD2Dialog.this);
-                if (_callback != null)
-                    _callback.onNegative(MD2Dialog.this);
-            }
-        });
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative = buttonViews.findViewById(R.id.md2_dialog_negative);
+            negative.setText("隐藏");
+
+            negative.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (_lis_negative != null)
+                        _lis_negative.onClick(view, MD2Dialog.this);
+                    if (_callback != null)
+                        _callback.onNegative(MD2Dialog.this);
+                }
+            });
+        }
     }
 
     private int dp2px(float dpValue) {
@@ -198,7 +205,14 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog buttonStyle(ButtonStyle style) {
+        defaultButtonStyle = style;
         switch (style) {
+            case AGREEMENT:
+                buttonsContainer.removeAllViews();
+                buttonViews = LayoutInflater.from(context).inflate(R.layout.button_agreement, null);
+                buttonsContainer.addView(buttonViews);
+                initButtons();
+                break;
             case FLAT:
                 buttonsContainer.removeAllViews();
                 buttonViews = LayoutInflater.from(context).inflate(R.layout.button_flat, null);
@@ -300,7 +314,7 @@ public class MD2Dialog {
                 android.R.attr.colorAccent,
         });
         int textColor = array.getColor(0, 0xFF000000);
-        int colorAccent = array.getColor(1, context.getResources().getColor(R.color.md2widgets_dialog_accent));
+        int colorAccent = array.getColor(1, context.getResources().getColor(R.color.coxylicDialogAccent));
         array.recycle();
 
         msgColor(getBrighterColor(textColor));
@@ -756,6 +770,58 @@ public class MD2Dialog {
     }
 
     /**
+     * 确认按钮图标 （仅适用于ButtonStyle为AGREENMENT模式时）
+     *
+     * @param iconId Drawable资源id
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog confirmIcon(@DrawableRes int iconId) {
+        if (defaultButtonStyle == ButtonStyle.AGREEMENT) {
+            confirm.setIconResource(iconId);
+        }
+        return this;
+    }
+
+    /**
+     * 确认按钮图标 （仅适用于ButtonStyle为AGREENMENT模式时）
+     *
+     * @param iconDrawable Drawable
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog confirmIcon(Drawable iconDrawable) {
+        if (defaultButtonStyle == ButtonStyle.AGREEMENT) {
+            confirm.setIcon(iconDrawable);
+        }
+        return this;
+    }
+
+    /**
+     * 取消按钮图标 （仅适用于ButtonStyle为AGREENMENT模式时）
+     *
+     * @param iconId Drawable资源id
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog cancelIcon(@DrawableRes int iconId) {
+        if (defaultButtonStyle == ButtonStyle.AGREEMENT) {
+            cancel.setIconResource(iconId);
+        }
+        return this;
+    }
+
+    /**
+     * 取消按钮图标 （仅适用于ButtonStyle为AGREENMENT模式时）
+     *
+     * @param iconDrawable Drawable
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog cancelIcon(Drawable iconDrawable) {
+        if (defaultButtonStyle == ButtonStyle.AGREEMENT) {
+            cancel.setIcon(iconDrawable);
+        }
+        return this;
+    }
+
+    /**
      * 设置确认按钮的监听
      *
      * @param listener 监听器
@@ -800,7 +866,7 @@ public class MD2Dialog {
      *
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleConfirmButton() {
+    public MD2Dialog simpleConfirm() {
         confirm.setVisibility(View.VISIBLE);
         _lis_confirm = new OptionsButtonCallBack() {
             @Override
@@ -817,7 +883,7 @@ public class MD2Dialog {
      * @param s 确认按钮的文字
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleConfirmButton(String s) {
+    public MD2Dialog simpleConfirm(String s) {
         confirm.setVisibility(View.VISIBLE);
         confirm.setText(s);
         _lis_confirm = new OptionsButtonCallBack() {
@@ -835,7 +901,7 @@ public class MD2Dialog {
      * @param resId 确认按钮的文字
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleConfirmButton(int resId) {
+    public MD2Dialog simpleConfirm(int resId) {
         confirm.setVisibility(View.VISIBLE);
         confirm.setText(context.getString(resId));
         _lis_confirm = new OptionsButtonCallBack() {
@@ -852,7 +918,7 @@ public class MD2Dialog {
      *
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleCancelButton() {
+    public MD2Dialog simpleCancel() {
         cancel.setVisibility(View.VISIBLE);
         _lis_cancel = new OptionsButtonCallBack() {
             @Override
@@ -869,7 +935,7 @@ public class MD2Dialog {
      * @param s 取消按钮的文字
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleCancelButton(String s) {
+    public MD2Dialog simpleCancel(String s) {
         cancel.setVisibility(View.VISIBLE);
         cancel.setText(s);
         _lis_cancel = new OptionsButtonCallBack() {
@@ -887,7 +953,7 @@ public class MD2Dialog {
      * @param resId 取消按钮的文字
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleCancelButton(int resId) {
+    public MD2Dialog simpleCancel(int resId) {
         cancel.setVisibility(View.VISIBLE);
         cancel.setText(context.getString(resId));
         _lis_cancel = new OptionsButtonCallBack() {
@@ -904,14 +970,16 @@ public class MD2Dialog {
      *
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleNegativeButton() {
-        negative.setVisibility(View.VISIBLE);
-        _lis_negative = new OptionsButtonCallBack() {
-            @Override
-            public void onClick(View view, MD2Dialog dialog) {
-                MD2Dialog.this.dismiss();
-            }
-        };
+    public MD2Dialog simpleNegative() {
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative.setVisibility(View.VISIBLE);
+            _lis_negative = new OptionsButtonCallBack() {
+                @Override
+                public void onClick(View view, MD2Dialog dialog) {
+                    MD2Dialog.this.dismiss();
+                }
+            };
+        }
         return this;
     }
 
@@ -921,15 +989,17 @@ public class MD2Dialog {
      * @param s 消极按钮的文字
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleNegativeButton(String s) {
-        negative.setVisibility(View.VISIBLE);
-        negative.setText(s);
-        _lis_negative = new OptionsButtonCallBack() {
-            @Override
-            public void onClick(View view, MD2Dialog dialog) {
-                MD2Dialog.this.dismiss();
-            }
-        };
+    public MD2Dialog simpleNegative(String s) {
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative.setVisibility(View.VISIBLE);
+            negative.setText(s);
+            _lis_negative = new OptionsButtonCallBack() {
+                @Override
+                public void onClick(View view, MD2Dialog dialog) {
+                    MD2Dialog.this.dismiss();
+                }
+            };
+        }
         return this;
     }
 
@@ -939,15 +1009,17 @@ public class MD2Dialog {
      * @param resId 消极按钮的文字
      * @return {@link MD2Dialog}
      */
-    public MD2Dialog simpleNegativeButton(int resId) {
-        negative.setVisibility(View.VISIBLE);
-        negative.setText(context.getString(resId));
-        _lis_negative = new OptionsButtonCallBack() {
-            @Override
-            public void onClick(View view, MD2Dialog dialog) {
-                MD2Dialog.this.dismiss();
-            }
-        };
+    public MD2Dialog simpleNegative(int resId) {
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative.setVisibility(View.VISIBLE);
+            negative.setText(context.getString(resId));
+            _lis_negative = new OptionsButtonCallBack() {
+                @Override
+                public void onClick(View view, MD2Dialog dialog) {
+                    MD2Dialog.this.dismiss();
+                }
+            };
+        }
         return this;
     }
 
@@ -998,8 +1070,10 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog onNegativeClick(OptionsButtonCallBack listener) {
-        negative.setVisibility(View.VISIBLE);
-        _lis_negative = listener;
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative.setVisibility(View.VISIBLE);
+            _lis_negative = listener;
+        }
         return this;
     }
 
@@ -1011,9 +1085,11 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog onNegativeClick(String s, OptionsButtonCallBack listener) {
-        negative.setVisibility(View.VISIBLE);
-        negative.setText(s);
-        _lis_negative = listener;
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative.setVisibility(View.VISIBLE);
+            negative.setText(s);
+            _lis_negative = listener;
+        }
         return this;
     }
 
@@ -1025,9 +1101,11 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog onNegativeClick(int resId, OptionsButtonCallBack listener) {
-        negative.setVisibility(View.VISIBLE);
-        negative.setText(context.getString(resId));
-        _lis_negative = listener;
+        if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
+            negative.setVisibility(View.VISIBLE);
+            negative.setText(context.getString(resId));
+            _lis_negative = listener;
+        }
         return this;
     }
 

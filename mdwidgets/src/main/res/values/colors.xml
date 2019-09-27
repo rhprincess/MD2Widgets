@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="md2widgets_toast_snailbar_color">#323232</color>
-    <color name="md2widgets_dialog_accent">#1871EF</color>
-    <color name="md2widgets_dialog_accent_deep">#0C65EB</color>
-    <color name="md2widgets_dialog_button_stroke">#751871EF</color>
+    <color name="coxylicSnailBarColor">#FF102027</color>
+    <color name="coxylicSnailBarMsgColor">#FFF</color>
+    <color name="coxylicSnailBarActionTextColor">#FFF</color>
+
+    <color name="coxylicDialogAccent">#37474f</color>
+    <color name="coxylicDialogAccentDeep">#102027</color>
+    <color name="coxylicDialogButtonStroke">#7537474f</color>
+    <color name="coxylicDialogBackground">#FFF</color>
 
 </resources>

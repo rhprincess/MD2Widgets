@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <corners android:radius="6dp" />
-    <solid android:color="@color/md2widgets_toast_snailbar_color" />
+    <corners android:radius="@dimen/coxylicSnailBarRadius" />
+    <solid android:color="@color/coxylicSnailBarColor" />
 
 </shape>

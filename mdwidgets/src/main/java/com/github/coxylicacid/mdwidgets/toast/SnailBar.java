@@ -11,20 +11,15 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -32,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.coxylicacid.mdwidgets.R;
@@ -40,7 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * @author Krins
- * @version 0.0.1-alpha08
+ * @version 0.0.1-alpha09
  */
 @SuppressLint("StaticFieldLeak")
 public class SnailBar {
@@ -80,6 +77,8 @@ public class SnailBar {
     private static float attachY = 0;
 
     private static int maxExpandedMsg = 15;
+
+    private static long lastShowTime = 0;
 
     /**
      * Gravity 位置方向
@@ -179,8 +178,7 @@ public class SnailBar {
         textFront = container.findViewById(R.id.snailbar_front_text);
         textBehind = container.findViewById(R.id.snailbar_behind_text);
 
-        if (isNavigationBarShow(activity))
-            layoutParams.bottomMargin = getNavigationBarHeight(activity);
+        layoutParams.bottomMargin = getSoftButtonsBarHeight(activity);
 
         layoutParams.gravity = android.view.Gravity.BOTTOM;
         content.setText("内容");
@@ -381,13 +379,13 @@ public class SnailBar {
             float height = -container.getHeight();
             ObjectAnimator fabTrans = ObjectAnimator.ofFloat(fabButton, "translationY", 0, height);
             fabTrans.setDuration(150);
-            fabTrans.start();
+            if (!(System.currentTimeMillis() - lastShowTime < 1000))
+                fabTrans.start();
         }
     }
 
     private static void closeAnimation(Anime anime) {
         AnimatorSet animatorSet = new AnimatorSet();
-
         switch (anime) {
             case ALPHA:
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(container, "alpha", 1, 0.55f, 0);
@@ -453,7 +451,6 @@ public class SnailBar {
             float height = -container.getHeight();
             ObjectAnimator fabTrans = ObjectAnimator.ofFloat(fabButton, "translationY", height, 0);
             fabTrans.setDuration(150);
-            fabTrans.start();
             fabTrans.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -461,11 +458,23 @@ public class SnailBar {
                     isAttachToFab = false;
                 }
             });
+            fabTrans.start();
         }
     }
 
     private void closeInSchedule(int _duration) {
         durationHandler.postDelayed(runnable, _duration);
+    }
+
+    /**
+     * 设置背景透明程度
+     *
+     * @param alphaValue 透明度
+     * @return {@link SnailBar}
+     */
+    public SnailBar alpha(@IntRange(from = 0, to = 255) int alphaValue) {
+        container_content.getBackground().setAlpha(alphaValue);
+        return this;
     }
 
     /**
@@ -548,7 +557,7 @@ public class SnailBar {
 
     @SuppressLint("SetTextI18n")
     private static void setExpandMode() {
-        if (isUsingExpandMode && (_msg.replace("\n","").length() > maxExpandedMsg || container.getHeight() > dp2px(40) * 2.5)) {
+        if (isUsingExpandMode && (_msg.replace("\n", "").length() > maxExpandedMsg || container.getHeight() > dp2px(40) * 2.5)) {
             _expand.setVisibility(View.VISIBLE);
             content.setText((_msg.substring(0, maxExpandedMsg) + "...").replace("\n", ""));
         }
@@ -957,6 +966,7 @@ public class SnailBar {
     public void show() {
         firstShowInitMsg(_msg);
         showAnimation(defaultAnime);
+        lastShowTime = System.currentTimeMillis();
     }
 
     /**
@@ -1102,34 +1112,25 @@ public class SnailBar {
     }
 
 
-    private static boolean isNavigationBarShow(AppCompatActivity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Display display = activity.getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            Point realSize = new Point();
-            display.getSize(size);
-            display.getRealSize(realSize);
-            return realSize.y != size.y;
+    /**
+     * 底部虚拟按键栏的高度
+     *
+     * @return 虚拟按键高度
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private static int getSoftButtonsBarHeight(AppCompatActivity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        //这个方法获取可能不是真实屏幕的高度
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int usableHeight = metrics.heightPixels;
+        //获取当前屏幕的真实高度
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int realHeight = metrics.heightPixels;
+        if (realHeight > usableHeight) {
+            return realHeight - usableHeight;
         } else {
-            boolean menu = ViewConfiguration.get(activity).hasPermanentMenuKey();
-            boolean back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-            if (menu || back) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
-    private static int getNavigationBarHeight(AppCompatActivity activity) {
-        if (!isNavigationBarShow(activity)) {
             return 0;
         }
-        Resources resources = activity.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height",
-                "dimen", "android");
-        //获取NavigationBar的高度
-        return resources.getDimensionPixelSize(resourceId);
     }
 
     /**
