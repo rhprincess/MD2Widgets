@@ -37,7 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * @author Krins
- * @version 0.0.1-alpha10
+ * @version 0.0.1-beta01
  */
 @SuppressLint("StaticFieldLeak")
 public class SnailBar {

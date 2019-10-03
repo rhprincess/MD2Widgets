@@ -39,7 +39,7 @@ import java.util.List;
 
 /**
  * @author Krins (CoxylicAcid)
- * @version 0.0.1-alpha10
+ * @version 0.0.1-beta01
  */
 public class SnailActionBar {
 
@@ -534,7 +534,7 @@ public class SnailActionBar {
         }
     }
 
-    private class SnailActionItem {
+    public class SnailActionItem {
         private String title;
         private Drawable icon2;
         private ImageView icon;
