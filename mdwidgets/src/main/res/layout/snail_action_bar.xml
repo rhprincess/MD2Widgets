@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="#00000000">
+
+    <RelativeLayout
+        android:id="@+id/snail_action_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/coxylicSnailActionBarMinHeight"
+        android:layout_margin="8dp"
+        android:background="@drawable/snailbar_bg"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/snail_action_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:src="@drawable/ic_close"
+            tools:ignore="ContentDescription" />
+
+        <RelativeLayout
+            android:id="@+id/snail_action_menu_container"
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="10dp"
+            android:minWidth="160dp">
+
+            <ImageView
+                android:id="@+id/snail_action_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:padding="6dp"
+                android:src="@drawable/ic_more"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/action_icon_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/snail_action_more"
+                android:gravity="center|end"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/snail_action_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toStartOf="@id/snail_action_menu_container"
+            android:layout_toEndOf="@id/snail_action_close"
+            android:ellipsize="end"
+            android:textColor="@color/coxylicSnailBarMsgColor"
+            android:textSize="14sp"
+            tools:text="标题" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@
 
     <dimen name="coxylicSnailBarRadius">6dp</dimen>
     <dimen name="coxylicSnailBarMinHeight">40dp</dimen>
+    <dimen name="coxylicSnailActionBarMinHeight">45dp</dimen>
     <dimen name="coxylicDialogMargin">10dp</dimen>
     <dimen name="coxylicDialogRadius">5dp</dimen>
 

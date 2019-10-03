@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MDWidgets</string>
+    <string name="close">关闭</string>
+    <string name="expand_msg">当消息超过一定限度时展开</string>
+    <string name="snailbar_icon_description">SnailBar图标</string>
+    <string name="more">更多</string>
+</resources>
