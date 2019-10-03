@@ -1,6 +1,6 @@
 ### MD2Widgets
 
-[ ![下载](https://api.bintray.com/packages/coxylicacid-official/MD2Widgets/mdwidgets/images/download.svg?version=0.0.1-alpha10) ](https://bintray.com/coxylicacid-official/MD2Widgets/mdwidgets/0.0.1-alpha10/link)
+[ ![下载](https://api.bintray.com/packages/coxylicacid-official/MD2Widgets/mdwidgets/images/download.svg?version=0.0.1-beta01) ](https://bintray.com/coxylicacid-official/MD2Widgets/mdwidgets/0.0.1-beta01/link)
 
 ##### [SnailBar使用方法](https://github.com/coxylicacid/MD2Widgets/blob/master/SnailBar%20%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.md)
 
