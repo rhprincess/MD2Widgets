@@ -39,7 +39,7 @@ import java.util.List;
 
 /**
  * @author Krins (CoxylicAcid)
- * @version 0.0.1-beta01
+ * @version 0.0.1-beta02
  */
 public class SnailActionBar {
 
