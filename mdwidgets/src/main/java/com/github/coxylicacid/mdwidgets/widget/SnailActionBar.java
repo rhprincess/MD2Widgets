@@ -31,15 +31,13 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.TooltipCompat;
 
-import com.github.coxylicacid.mdwidgets.R;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Krins (CoxylicAcid)
- * @version 0.0.1-beta02
+ * @version 0.0.1-beta03
  */
 public class SnailActionBar {
 
@@ -76,12 +74,12 @@ public class SnailActionBar {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initViews() {
-        container = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.snail_action_bar, null);
-        actionClose = container.findViewById(R.id.snail_action_close);
-        actionMore = container.findViewById(R.id.snail_action_more);
-        title = container.findViewById(R.id.snail_action_title);
-        menuItemContainer = container.findViewById(R.id.action_icon_container);
-        menuContainer = container.findViewById(R.id.snail_action_menu_container);
+        container = (RelativeLayout) LayoutInflater.from(mActivity).inflate(com.github.coxylicacid.mdwidgets.R.layout.snail_action_bar, null);
+        actionClose = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snail_action_close);
+        actionMore = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snail_action_more);
+        title = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snail_action_title);
+        menuItemContainer = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.action_icon_container);
+        menuContainer = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snail_action_menu_container);
         menuMore = new PopupMenu(mActivity, actionMore);
 
         decorView = (FrameLayout) mActivity.getWindow().getDecorView();
@@ -91,7 +89,7 @@ public class SnailActionBar {
         decorView.addView(container, layoutParams);
         container.setVisibility(View.GONE);
 
-        TooltipCompat.setTooltipText(actionClose, mActivity.getString(R.string.close));
+        TooltipCompat.setTooltipText(actionClose, mActivity.getString(com.github.coxylicacid.mdwidgets.R.string.close));
         actionClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +97,7 @@ public class SnailActionBar {
             }
         });
 
-        TooltipCompat.setTooltipText(actionMore, mActivity.getString(R.string.more));
+        TooltipCompat.setTooltipText(actionMore, mActivity.getString(com.github.coxylicacid.mdwidgets.R.string.more));
         actionMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +158,7 @@ public class SnailActionBar {
 
     private Object addItemPrivatly(String title, Drawable icon) {
         if (menuItemContainer.getChildCount() + 1 <= maxItemOnSurface) {
-            LinearLayout parent = (LinearLayout) LayoutInflater.from(mActivity).inflate(R.layout.action_icon, null);
+            LinearLayout parent = (LinearLayout) LayoutInflater.from(mActivity).inflate(com.github.coxylicacid.mdwidgets.R.layout.action_icon, null);
             ImageView iconView = (ImageView) parent.getChildAt(0);
             iconView.setContentDescription(title == null ? "" : title);
             final int id = actionItemsSize;
@@ -314,7 +312,7 @@ public class SnailActionBar {
                     menuContainer.getLayoutParams().width += dp(38);
                     System.gc();
                 } else { //Item里面不包含原来的View，创建并添加事件
-                    LinearLayout parent = (LinearLayout) LayoutInflater.from(mActivity).inflate(R.layout.action_icon, null);
+                    LinearLayout parent = (LinearLayout) LayoutInflater.from(mActivity).inflate(com.github.coxylicacid.mdwidgets.R.layout.action_icon, null);
                     ImageView iconView = (ImageView) parent.getChildAt(0);
                     iconView.setContentDescription(title == null ? "" : item.getTitle());
                     iconView.setImageDrawable(item.getIcon());

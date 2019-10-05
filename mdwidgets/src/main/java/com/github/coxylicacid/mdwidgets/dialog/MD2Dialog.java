@@ -24,7 +24,6 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
-import com.github.coxylicacid.mdwidgets.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import java.util.List;
 
 /**
  * @author Krins
- * @version 0.0.1-beta02
+ * @version 0.0.1-beta03
  */
 
 public class MD2Dialog {
@@ -96,8 +95,8 @@ public class MD2Dialog {
      */
     public MD2Dialog(@NonNull Context context) {
         this.context = context;
-        rootView = LayoutInflater.from(context).inflate(R.layout.md2dialog, null);
-        buttonViews = LayoutInflater.from(context).inflate(R.layout.button_fill, null);
+        rootView = LayoutInflater.from(context).inflate(com.github.coxylicacid.mdwidgets.R.layout.md2dialog, null);
+        buttonViews = LayoutInflater.from(context).inflate(com.github.coxylicacid.mdwidgets.R.layout.button_fill, null);
         builder = new AlertDialog.Builder(context);
         builder.setView(rootView);
         dialog = builder.create();
@@ -115,19 +114,19 @@ public class MD2Dialog {
     }
 
     private void initView() {
-        buttonsContainer = rootView.findViewById(R.id.buttons_container);
-        loadingField = rootView.findViewById(R.id.md2_dialog_loading_field);
-        loadingText = rootView.findViewById(R.id.md2_dialog_loading_msg);
-        listView = rootView.findViewById(R.id.md2_dialog_list);
-        progressContent = rootView.findViewById(R.id.md2_dialog_progress_content);
-        _percent = rootView.findViewById(R.id.md2_dialog_percent);
-        _kbs = rootView.findViewById(R.id.md2_dialog_kbs);
-        progressBar = rootView.findViewById(R.id.md2_dialog_progressbar);
-        _title = rootView.findViewById(R.id.md2_dialog_title);
-        content = rootView.findViewById(R.id.md2_dialog_content);
-        confirm = buttonViews.findViewById(R.id.md2_dialog_confirm);
-        cancel = buttonViews.findViewById(R.id.md2_dialog_cancel);
-        checkbox = rootView.findViewById(R.id.md2_dialog_check1);
+        buttonsContainer = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.buttons_container);
+        loadingField = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_loading_field);
+        loadingText = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_loading_msg);
+        listView = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_list);
+        progressContent = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_progress_content);
+        _percent = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_percent);
+        _kbs = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_kbs);
+        progressBar = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_progressbar);
+        _title = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_title);
+        content = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_content);
+        confirm = buttonViews.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_confirm);
+        cancel = buttonViews.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_cancel);
+        checkbox = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_check1);
 
         buttonsContainer.addView(buttonViews);
         initButtons();
@@ -135,7 +134,7 @@ public class MD2Dialog {
         _title.setText("标题");
         content.setText("");
         checkbox.setChecked(false);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_bg_inset);
+        dialog.getWindow().setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
         dialog.getWindow().setDimAmount(0.35f);
 
         adapter = new SingleChoiceAdapter(context);
@@ -151,8 +150,8 @@ public class MD2Dialog {
     }
 
     private void initButtons() {
-        confirm = buttonViews.findViewById(R.id.md2_dialog_confirm);
-        cancel = buttonViews.findViewById(R.id.md2_dialog_cancel);
+        confirm = buttonViews.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_confirm);
+        cancel = buttonViews.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_cancel);
 
         confirm.setText("确定");
         cancel.setText("取消");
@@ -178,7 +177,7 @@ public class MD2Dialog {
         });
 
         if (defaultButtonStyle != ButtonStyle.AGREEMENT) {
-            negative = buttonViews.findViewById(R.id.md2_dialog_negative);
+            negative = buttonViews.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_negative);
             negative.setText("隐藏");
 
             negative.setOnClickListener(new View.OnClickListener() {
@@ -209,25 +208,25 @@ public class MD2Dialog {
         switch (style) {
             case AGREEMENT:
                 buttonsContainer.removeAllViews();
-                buttonViews = LayoutInflater.from(context).inflate(R.layout.button_agreement, null);
+                buttonViews = LayoutInflater.from(context).inflate(com.github.coxylicacid.mdwidgets.R.layout.button_agreement, null);
                 buttonsContainer.addView(buttonViews);
                 initButtons();
                 break;
             case FLAT:
                 buttonsContainer.removeAllViews();
-                buttonViews = LayoutInflater.from(context).inflate(R.layout.button_flat, null);
+                buttonViews = LayoutInflater.from(context).inflate(com.github.coxylicacid.mdwidgets.R.layout.button_flat, null);
                 buttonsContainer.addView(buttonViews);
                 initButtons();
                 break;
             case FILL:
                 buttonsContainer.removeAllViews();
-                buttonViews = LayoutInflater.from(context).inflate(R.layout.button_fill, null);
+                buttonViews = LayoutInflater.from(context).inflate(com.github.coxylicacid.mdwidgets.R.layout.button_fill, null);
                 buttonsContainer.addView(buttonViews);
                 initButtons();
                 break;
             case OUTLINE:
                 buttonsContainer.removeAllViews();
-                buttonViews = LayoutInflater.from(context).inflate(R.layout.button_outline, null);
+                buttonViews = LayoutInflater.from(context).inflate(com.github.coxylicacid.mdwidgets.R.layout.button_outline, null);
                 buttonsContainer.addView(buttonViews);
                 initButtons();
                 break;
@@ -314,7 +313,7 @@ public class MD2Dialog {
                 android.R.attr.colorAccent,
         });
         int textColor = array.getColor(0, 0xFF000000);
-        int colorAccent = array.getColor(1, context.getResources().getColor(R.color.coxylicDialogAccent));
+        int colorAccent = array.getColor(1, context.getResources().getColor(com.github.coxylicacid.mdwidgets.R.color.coxylicDialogAccent));
         array.recycle();
 
         msgColor(getBrighterColor(textColor));
@@ -331,7 +330,7 @@ public class MD2Dialog {
     public void setContentView(int resId) {
         builder.setView(resId);
         dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_bg_inset);
+        dialog.getWindow().setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
         dialog.getWindow().setDimAmount(0.35f);
     }
 
@@ -343,7 +342,7 @@ public class MD2Dialog {
     public void setContentView(View view) {
         builder.setView(view);
         dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_bg_inset);
+        dialog.getWindow().setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
         dialog.getWindow().setDimAmount(0.35f);
     }
 
@@ -1355,12 +1354,12 @@ public class MD2Dialog {
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
                 holder = new ViewHolder();
-                view = mInflater.inflate(R.layout.list_single_choice, null);
+                view = mInflater.inflate(com.github.coxylicacid.mdwidgets.R.layout.list_single_choice, null);
                 holder.radioBtn = (RadioButton) view
-                        .findViewById(R.id.choice_btn);
+                        .findViewById(com.github.coxylicacid.mdwidgets.R.id.choice_btn);
                 holder.radioBtn.setClickable(false);
                 holder.textView = (TextView) view
-                        .findViewById(R.id.choice_content);
+                        .findViewById(com.github.coxylicacid.mdwidgets.R.id.choice_content);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();

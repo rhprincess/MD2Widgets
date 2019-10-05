@@ -31,13 +31,12 @@ import androidx.annotation.IntRange;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.coxylicacid.mdwidgets.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * @author Krins
- * @version 0.0.1-beta02
+ * @version 0.0.1-beta03
  */
 @SuppressLint("StaticFieldLeak")
 public class SnailBar {
@@ -162,21 +161,21 @@ public class SnailBar {
     @SuppressLint("SetTextI18n")
     private static void initViews(AppCompatActivity activity) {
         decorView = (FrameLayout) activity.getWindow().getDecorView();
-        container = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.snailbar, null);
+        container = (ViewGroup) LayoutInflater.from(activity).inflate(com.github.coxylicacid.mdwidgets.R.layout.snailbar, null);
         layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         decorView.addView(container, layoutParams);
         container.setVisibility(View.GONE);
 
-        _icon = container.findViewById(R.id.snailbar_icon);
-        _expand = container.findViewById(R.id.snailbar_expand);
-        content = container.findViewById(R.id.snailbar_content);
-        btn_action = container.findViewById(R.id.snailbar_action);
-        container_content = container.findViewById(R.id.container_content);
+        _icon = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_icon);
+        _expand = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_expand);
+        content = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_content);
+        btn_action = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_action);
+        container_content = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.container_content);
 
-        expanderFront = container.findViewById(R.id.snailbar_expander_front);
-        expanderBehind = container.findViewById(R.id.snailbar_expander_behind);
-        textFront = container.findViewById(R.id.snailbar_front_text);
-        textBehind = container.findViewById(R.id.snailbar_behind_text);
+        expanderFront = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_expander_front);
+        expanderBehind = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_expander_behind);
+        textFront = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_front_text);
+        textBehind = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_behind_text);
 
         layoutParams.bottomMargin = getSoftButtonsBarHeight(activity);
 
@@ -225,11 +224,11 @@ public class SnailBar {
 
         //判断SnailBar的方位，根据方位显示消息扩展器
         if (isExpanderOnTop) {
-            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
+            _expand.setImageDrawable(context.getResources().getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.ic_expand));
             expanderBehind.setVisibility(View.VISIBLE);
             textBehind.setText(_msg);
         } else {
-            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fold));
+            _expand.setImageDrawable(context.getResources().getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.ic_fold));
             expanderFront.setVisibility(View.VISIBLE);
             textFront.setText(_msg);
         }
@@ -247,10 +246,10 @@ public class SnailBar {
         isExpanded = false;
         //判断SnailBar的方位，根据方位隐藏消息扩展器
         if (isExpanderOnTop) {
-            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fold));
+            _expand.setImageDrawable(context.getResources().getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.ic_fold));
             expanderBehind.setVisibility(View.GONE);
         } else {
-            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
+            _expand.setImageDrawable(context.getResources().getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.ic_expand));
             expanderFront.setVisibility(View.GONE);
         }
 
@@ -545,10 +544,10 @@ public class SnailBar {
     public SnailBar useExpandMode() {
         isUsingExpandMode = true;
         if (defaultGravity == Gravity.TOP_LEFT || defaultGravity == Gravity.TOP || defaultGravity == Gravity.TOP_RIGHT) {
-            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_fold));
+            _expand.setImageDrawable(context.getResources().getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.ic_fold));
             isExpanderOnTop = true;
         } else {
-            _expand.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_expand));
+            _expand.setImageDrawable(context.getResources().getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.ic_expand));
             isExpanderOnTop = false;
         }
         setExpandMode();
@@ -671,15 +670,15 @@ public class SnailBar {
      */
     public SnailBar contentView(int layout) {
         container_content = (ViewGroup) LayoutInflater.from(context).inflate(layout, null);
-        if (container_content.findViewById(R.id.snailbar_action) == null) {
+        if (container_content.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_action) == null) {
             throw new NullPointerException("The layout haven't has an action button with id 'snailbar_action'");
-        } else if (container_content.findViewById(R.id.snailbar_content) == null) {
+        } else if (container_content.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_content) == null) {
             throw new NullPointerException("The layout haven't has a content TextView with id 'snailbar_content'");
         } else {
             container.removeAllViews();
             container.addView(container_content);
-            btn_action = container.findViewById(R.id.snailbar_action);
-            content = container.findViewById(R.id.snailbar_content);
+            btn_action = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_action);
+            content = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_content);
         }
         return this;
     }
@@ -692,15 +691,15 @@ public class SnailBar {
      */
     public SnailBar contentView(ViewGroup layout) {
         container_content = layout;
-        if (container_content.findViewById(R.id.snailbar_action) == null) {
+        if (container_content.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_action) == null) {
             throw new NullPointerException("The layout haven't has an action button with id 'snailbar_action'");
-        } else if (container_content.findViewById(R.id.snailbar_content) == null) {
+        } else if (container_content.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_content) == null) {
             throw new NullPointerException("The layout haven't has a content TextView with id 'snailbar_content'");
         } else {
             container.removeAllViews();
             container.addView(container_content);
-            btn_action = container.findViewById(R.id.snailbar_action);
-            content = container.findViewById(R.id.snailbar_content);
+            btn_action = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_action);
+            content = container.findViewById(com.github.coxylicacid.mdwidgets.R.id.snailbar_content);
         }
         return this;
     }
@@ -758,7 +757,7 @@ public class SnailBar {
      * @return {@link SnailBar}
      */
     public SnailBar backgroundColor(int color) {
-        Drawable drawable = context.getDrawable(R.drawable.snailbar_bg);
+        Drawable drawable = context.getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.snailbar_bg);
         drawable.setTint(color);
         container_content.setBackground(drawable);
         return this;
@@ -771,7 +770,7 @@ public class SnailBar {
      * @return {@link SnailBar}
      */
     public SnailBar backgroundColor(String color) {
-        Drawable drawable = context.getDrawable(R.drawable.snailbar_bg);
+        Drawable drawable = context.getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.snailbar_bg);
         drawable.setTint(Color.parseColor(color));
         container_content.setBackground(drawable);
         return this;
@@ -1163,14 +1162,14 @@ public class SnailBar {
 
         private void initAttrs(Context context, AttributeSet attrs) {
             TypedArray a = context.obtainStyledAttributes(attrs,
-                    R.styleable.SnailLimitedHeightView);
+                    com.github.coxylicacid.mdwidgets.R.styleable.SnailLimitedHeightView);
 
             final int count = a.getIndexCount();
             for (int i = 0; i < count; ++i) {
                 int attr = a.getIndex(i);
-                if (attr == R.styleable.SnailLimitedHeightView_heightRatio) {
+                if (attr == com.github.coxylicacid.mdwidgets.R.styleable.SnailLimitedHeightView_heightRatio) {
                     mMaxRatio = a.getFloat(attr, DEFAULT_MAX_RATIO);
-                } else if (attr == R.styleable.SnailLimitedHeightView_heightDimen) {
+                } else if (attr == com.github.coxylicacid.mdwidgets.R.styleable.SnailLimitedHeightView_heightDimen) {
                     mMaxHeight = a.getDimension(attr, DEFAULT_MAX_HEIGHT);
                 }
             }
