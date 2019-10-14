@@ -34,7 +34,7 @@ import java.util.Objects;
 
 /**
  * @author Krins
- * @version 0.0.1-beta03
+ * @version 0.0.1-beta04
  */
 
 public class MD2Dialog {
