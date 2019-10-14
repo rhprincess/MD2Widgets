@@ -4,7 +4,7 @@
         <inset android:inset="@dimen/coxylicDialogMargin">
             <shape>
                 <corners android:radius="@dimen/coxylicDialogRadius" />
-                <solid android:color="@color/coxylicDialogBackground" />
+                <solid android:color="#323232" />
             </shape>
         </inset>
     </item>

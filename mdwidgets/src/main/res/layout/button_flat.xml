@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="15dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/md2_dialog_negative"
@@ -44,8 +44,8 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/md2_dialog_confirm"
         android:layout_centerInParent="true"
+        android:layout_toStartOf="@id/md2_dialog_confirm"
         android:elevation="0dp"
         android:minWidth="65dp"
         android:minHeight="42dp"

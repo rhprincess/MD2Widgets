@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.coxylicacid.mdwidgets.dialog.MD2Dialog;
 import com.github.coxylicacid.mdwidgets.toast.SnailBar;
 import com.github.coxylicacid.mdwidgets.widget.SnailActionBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         final MaterialButton show = findViewById(R.id.show);
         final MaterialButton add = findViewById(R.id.add);
@@ -57,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
                         SnailBar.make(MainActivity.this, "SelectAll", SnailBar.LENGTH_SHORT).gravity(SnailBar.Gravity.CENTER).show();
                         break;
                     case TRANSLATE:
-                        SnailBar.make(MainActivity.this, "Translate", SnailBar.LENGTH_SHORT).gravity(SnailBar.Gravity.CENTER).show();
+                        MD2Dialog.create(MainActivity.this)
+                                .title("Translate")
+                                .customView(R.layout.layout_editor)
+                                .simpleConfirm()
+                                .darkMode(true)
+                                .show();
                         break;
                 }
             }

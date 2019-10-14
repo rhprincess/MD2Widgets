@@ -21,13 +21,16 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Krins
@@ -54,6 +57,7 @@ public class MD2Dialog {
     private View rootView;
     private View buttonViews;
     private FrameLayout buttonsContainer;
+    private FrameLayout customViewContainer;
     private OptionsButtonCallBack _lis_confirm;
     private OptionsButtonCallBack _lis_cancel;
     private OptionsButtonCallBack _lis_negative;
@@ -64,6 +68,7 @@ public class MD2Dialog {
     private SingleChoiceAdapter adapter;
     private SingleChoiceListener choiceLis;
     private boolean isLoadingMode = false;
+    private boolean isDarkMode = false;
 
     private ButtonStyle defaultButtonStyle = ButtonStyle.FILL;
 
@@ -115,6 +120,7 @@ public class MD2Dialog {
 
     private void initView() {
         buttonsContainer = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.buttons_container);
+        customViewContainer = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_custom_view_container);
         loadingField = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_loading_field);
         loadingText = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_loading_msg);
         listView = rootView.findViewById(com.github.coxylicacid.mdwidgets.R.id.md2_dialog_list);
@@ -134,7 +140,7 @@ public class MD2Dialog {
         _title.setText("标题");
         content.setText("");
         checkbox.setChecked(false);
-        dialog.getWindow().setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
         dialog.getWindow().setDimAmount(0.35f);
 
         adapter = new SingleChoiceAdapter(context);
@@ -322,28 +328,84 @@ public class MD2Dialog {
         return this;
     }
 
+    public MD2Dialog darkMode(boolean bDark) {
+        isDarkMode = bDark;
+        if (bDark) {
+            titleColor(0xFFFFFFFF);
+            msgColor(0xFFF5F5F5);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_dark_inset);
+        }
+        return this;
+    }
+
     /**
-     * 设置Dialog的显示视图
+     * 设置对话框背景颜色
      *
-     * @param resId 布局资源Id
+     * @param color 颜色值
+     * @return {@link MD2Dialog}
      */
-    public void setContentView(int resId) {
-        builder.setView(resId);
-        dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
-        dialog.getWindow().setDimAmount(0.35f);
+    public MD2Dialog backgroundColor(@ColorInt int color) {
+        Drawable drawable;
+        if (isDarkMode) {
+            drawable = context.getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_dark_inset);
+        } else {
+            drawable = context.getDrawable(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
+        }
+        Objects.requireNonNull(drawable).setTint(color);
+        return this;
     }
 
     /**
      * 设置Dialog的显示视图
+     * 该方法直接替换整个Dialog的视图
+     *
+     * @param resId 布局资源Id
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog contentView(@LayoutRes int resId) {
+        builder.setView(resId);
+        dialog = builder.create();
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
+        dialog.getWindow().setDimAmount(0.35f);
+        return this;
+    }
+
+    /**
+     * 设置Dialog的显示视图
+     * 该方法直接替换整个Dialog的视图
      *
      * @param view 要显示的View
+     * @return {@link MD2Dialog}
      */
-    public void setContentView(View view) {
+    public MD2Dialog contentView(View view) {
         builder.setView(view);
         dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(com.github.coxylicacid.mdwidgets.R.drawable.dialog_bg_inset);
         dialog.getWindow().setDimAmount(0.35f);
+        return this;
+    }
+
+    /**
+     * 自定义视图（往Dialog中的容器中添加视图）
+     *
+     * @param resId 布局资源Id
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog customView(@LayoutRes int resId) {
+        View view = LayoutInflater.from(context).inflate(resId, null, false);
+        customViewContainer.addView(view);
+        return this;
+    }
+
+    /**
+     * 自定义视图（往Dialog中的容器中添加视图）
+     *
+     * @param view 控件实例
+     * @return {@link MD2Dialog}
+     */
+    public MD2Dialog customView(View view) {
+        customViewContainer.addView(view);
+        return this;
     }
 
     /**
@@ -1139,6 +1201,7 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog msg(String s) {
+        if (content.getVisibility() == View.GONE) content.setVisibility(View.VISIBLE);
         if (isLoadingMode) {
             loadingText.setText(s);
         } else {
@@ -1154,6 +1217,7 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog msg(int resId) {
+        if (content.getVisibility() == View.GONE) content.setVisibility(View.VISIBLE);
         if (isLoadingMode) {
             loadingText.setText(context.getString(resId));
         } else {
@@ -1169,6 +1233,7 @@ public class MD2Dialog {
      * @return {@link MD2Dialog}
      */
     public MD2Dialog msg(Spanned fromHtml) {
+        if (content.getVisibility() == View.GONE) content.setVisibility(View.VISIBLE);
         if (isLoadingMode) {
             loadingText.setText(fromHtml);
         } else {
@@ -1367,6 +1432,8 @@ public class MD2Dialog {
             choicer = (Choicer) getItem(i);
             holder.radioBtn.setChecked(choicer.isSelected());
             holder.textView.setText(choicer.getContent());
+
+            if (isDarkMode) holder.textView.setTextColor(0xFFFFFFFF);
             return view;
         }
 
@@ -1374,7 +1441,6 @@ public class MD2Dialog {
             RadioButton radioBtn;
             TextView textView;
         }
-
     }
 
 }
